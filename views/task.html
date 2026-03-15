@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>任务详情 - 小宇宙总结助手</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" y1="19" x2="12" y2="22"/>
+        </svg>
+        小宇宙总结助手
+      </div>
+      <nav>
+        <a href="/">首页</a>
+        <a href="/settings">设置</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <a href="/" class="back-link">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      返回首页
+    </a>
+
+    <div id="loadingState" class="empty-state">
+      <div class="loading-spinner" style="width: 40px; height: 40px; border-width: 3px;"></div>
+      <h3>加载中...</h3>
+    </div>
+
+    <div id="taskContent" style="display: none;">
+      <div class="detail-page">
+        <div class="detail-sidebar">
+          <div class="podcast-card">
+            <div class="podcast-cover">🎙️</div>
+            <div class="podcast-title" id="podcastTitle">播客标题</div>
+            <div class="podcast-url" id="podcastUrl"></div>
+          </div>
+        </div>
+
+        <div class="detail-content">
+          <div id="processingStatus">
+            <div class="summary-section">
+              <h2>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                处理状态
+              </h2>
+              <div class="progress-bar" style="width: 100%; height: 8px; margin-bottom: 12px;">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+              </div>
+              <p id="statusText">正在解析链接...</p>
+            </div>
+          </div>
+
+          <div id="resultContent" style="display: none;">
+            <div class="summary-section">
+              <h2>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+                核心摘要
+              </h2>
+              <p class="core-summary" id="coreSummary"></p>
+            </div>
+
+            <div class="summary-section">
+              <h2>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="8" y1="6" x2="21" y2="6"/>
+                  <line x1="8" y1="12" x2="21" y2="12"/>
+                  <line x1="8" y1="18" x2="21" y2="18"/>
+                  <line x1="3" y1="6" x2="3.01" y2="6"/>
+                  <line x1="3" y1="12" x2="3.01" y2="12"/>
+                  <line x1="3" y1="18" x2="3.01" y2="18"/>
+                </svg>
+                结构化大纲
+              </h2>
+              <ul class="outline-list" id="outlineList"></ul>
+            </div>
+
+            <div class="summary-section">
+              <h2>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 11 12 14 22 4"/>
+                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                </svg>
+                关键结论
+              </h2>
+              <ul class="conclusion-list" id="conclusionList"></ul>
+            </div>
+
+            <div class="summary-section">
+              <h2>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                </svg>
+                延伸阅读
+              </h2>
+              <div class="external-links" id="externalLinks"></div>
+            </div>
+
+            <button class="btn btn-primary" onclick="pushToFeishu()" id="pushBtn">
+              推送到飞书多维表格
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const taskId = window.location.pathname.split('/').pop();
+    let pollInterval = null;
+
+    async function loadTask() {
+      try {
+        const response = await fetch(`/api/podcast/task/${taskId}`);
+        const result = await response.json();
+        
+        if (!result.success) {
+          showToast('加载任务失败', 'error');
+          return;
+        }
+
+        const task = result.task;
+        
+        document.getElementById('podcastTitle').textContent = task.podcastInfo?.title || '播客标题';
+        document.getElementById('podcastUrl').textContent = task.url;
+        
+        document.getElementById('loadingState').style.display = 'none';
+        document.getElementById('taskContent').style.display = 'block';
+
+        if (task.status === 'completed') {
+          showResult(task);
+        } else if (task.status === 'failed') {
+          showToast('处理失败: ' + (task.error || '未知错误'), 'error');
+          showProgress(task);
+        } else {
+          showProgress(task);
+          startPolling();
+        }
+      } catch (error) {
+        showToast('加载任务失败', 'error');
+      }
+    }
+
+    function showProgress(task) {
+      const statusTexts = {
+        'parsing': '正在解析播客信息...',
+        'transcribing': '正在转录音频...',
+        'summarizing': '正在生成AI总结...',
+        'processing': '处理中...'
+      };
+      
+      document.getElementById('processingStatus').style.display = 'block';
+      document.getElementById('resultContent').style.display = 'none';
+      document.getElementById('progressFill').style.width = task.progress + '%';
+      document.getElementById('statusText').textContent = statusTexts[task.status] || '处理中...';
+    }
+
+    function showResult(task) {
+      document.getElementById('processingStatus').style.display = 'none';
+      document.getElementById('resultContent').style.display = 'block';
+
+      const summary = task.summary;
+      
+      document.getElementById('coreSummary').textContent = summary.coreSummary;
+
+      const outlineList = document.getElementById('outlineList');
+      outlineList.innerHTML = summary.outline.map(item => `
+        <li>
+          <span class="timestamp">${item.timestamp}</span>
+          <span class="topic">${item.topic}</span>
+        </li>
+      `).join('');
+
+      const conclusionList = document.getElementById('conclusionList');
+      conclusionList.innerHTML = summary.keyConclusions.map(item => `
+        <li>${item}</li>
+      `).join('');
+
+      const externalLinks = document.getElementById('externalLinks');
+      externalLinks.innerHTML = summary.externalLinks.map(item => `
+        <span class="tag ${item.type}">${item.name}</span>
+      `).join('');
+    }
+
+    function startPolling() {
+      if (pollInterval) clearInterval(pollInterval);
+      
+      pollInterval = setInterval(async () => {
+        try {
+          const response = await fetch(`/api/podcast/task/${taskId}`);
+          const result = await response.json();
+          
+          if (result.success) {
+            const task = result.task;
+            
+            if (task.status === 'completed') {
+              clearInterval(pollInterval);
+              showResult(task);
+              showToast('处理完成！', 'success');
+            } else if (task.status === 'failed') {
+              clearInterval(pollInterval);
+              showProgress(task);
+              showToast('处理失败: ' + (task.error || '未知错误'), 'error');
+            } else {
+              showProgress(task);
+            }
+          }
+        } catch (error) {
+          console.error('轮询错误:', error);
+        }
+      }, 2000);
+    }
+
+    async function pushToFeishu() {
+      const feishuAppId = localStorage.getItem('feishuAppId');
+      const feishuAppSecret = localStorage.getItem('feishuAppSecret');
+      const feishuBitableToken = localStorage.getItem('feishuBitableToken');
+      
+      if (!feishuAppId || !feishuAppSecret || !feishuBitableToken) {
+        showToast('请先在设置中配置飞书参数', 'error');
+        window.location.href = '/settings';
+        return;
+      }
+
+      const btn = document.getElementById('pushBtn');
+      btn.disabled = true;
+      btn.textContent = '推送中...';
+
+      try {
+        const response = await fetch('/api/podcast/push-feishu-bitable', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            taskId, 
+            feishuAppId,
+            feishuAppSecret,
+            feishuBitableToken
+          })
+        });
+
+        const result = await response.json();
+        
+        if (result.success) {
+          showToast('推送成功！', 'success');
+        } else {
+          showToast(result.error || '推送失败', 'error');
+        }
+      } catch (error) {
+        showToast('推送失败', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '推送到飞书多维表格';
+      }
+    }
+
+    function showToast(message, type = '') {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+
+    loadTask();
+  </script>
+</body>
+</html>

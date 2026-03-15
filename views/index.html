@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小宇宙总结助手</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" y1="19" x2="12" y2="22"/>
+        </svg>
+        小宇宙总结助手
+      </div>
+      <nav>
+        <a href="/" class="active">首页</a>
+        <a href="/settings">设置</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="container">
+      <h1>一键将播客转化为笔记</h1>
+      <p>粘贴小宇宙链接，AI自动完成转录、总结，结构化数据推送至飞书多维表格</p>
+    </div>
+  </div>
+
+  <div class="input-section">
+    <div class="input-card">
+      <div class="input-group">
+        <input type="text" id="podcastUrl" placeholder="粘贴小宇宙播客链接..." />
+        <button id="processBtn" onclick="processPodcast()">
+          开始处理
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container task-list">
+    <h2>处理记录</h2>
+    <div id="tasksContainer" class="tasks-grid">
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" y1="19" x2="12" y2="22"/>
+        </svg>
+        <h3>暂无处理记录</h3>
+        <p>粘贴小宇宙链接开始使用</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let tasks = [];
+    let pollInterval = null;
+
+    async function loadTasks() {
+      try {
+        const response = await fetch('/api/podcast/tasks');
+        const result = await response.json();
+        if (result.success) {
+          tasks = result.tasks;
+          renderTasks();
+        }
+      } catch (error) {
+        console.error('加载任务失败:', error);
+      }
+    }
+
+    function renderTasks() {
+      const container = document.getElementById('tasksContainer');
+      
+      if (tasks.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+              <line x1="12" y1="19" x2="12" y2="22"/>
+            </svg>
+            <h3>暂无处理记录</h3>
+            <p>粘贴小宇宙链接开始使用</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = tasks.map(task => {
+        const statusText = {
+          'processing': '处理中',
+          'completed': '已完成',
+          'failed': '失败',
+          'parsing': '解析中',
+          'transcribing': '转录中',
+          'summarizing': '总结中'
+        }[task.status] || '未知';
+
+        const statusClass = task.status === 'completed' ? 'completed' : 
+                           task.status === 'failed' ? 'failed' : 'processing';
+
+        const feishuStatus = task.feishuSynced ? '✅ 已同步飞书' : 
+                           task.feishuError ? '⚠️ 同步失败' : '';
+        const progress = task.progress || 0;
+        const title = task.podcastInfo?.title || '播客标题';
+        const createdAt = new Date(task.createdAt).toLocaleString('zh-CN');
+
+        return `
+          <div class="task-card ${statusClass}" onclick="goToTask('${task.id}')">
+            <div class="task-cover">🎙️</div>
+            <div class="task-info">
+              <h3>${escapeHtml(title)}</h3>
+              <p>${createdAt}</p>
+            </div>
+            <div class="task-status">
+              <span class="status-badge ${statusClass}">${statusText}</span>
+              ${feishuStatus ? `<span class="status-badge feishu">${feishuStatus}</span>` : ''}
+              ${task.status === 'processing' ? `
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: ${progress}%"></div>
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function processPodcast() {
+      const urlInput = document.getElementById('podcastUrl');
+      const btn = document.getElementById('processBtn');
+      const url = urlInput.value.trim();
+
+      if (!url) {
+        showToast('请输入播客链接', 'error');
+        return;
+      }
+
+      if (!url.includes('xiaoyuzhou') && !url.includes('ximalaya') && !url.includes('podcast')) {
+        showToast('请输入有效的小宇宙或喜马拉雅链接', 'error');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="loading-spinner"></span> 处理中...';
+
+      const openaiApiKey = localStorage.getItem('openaiApiKey');
+      const geminiApiKey = localStorage.getItem('geminiApiKey');
+      const geminiProxy = localStorage.getItem('geminiProxy');
+      const localProxy = localStorage.getItem('localProxy');
+      const transcribeMode = localStorage.getItem('transcribeMode') || 'fast';
+      const feishuAppId = localStorage.getItem('feishuAppId');
+      const feishuAppSecret = localStorage.getItem('feishuAppSecret');
+      const feishuBitableToken = localStorage.getItem('feishuBitableToken');
+
+      try {
+        const response = await fetch('/api/podcast/process', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            url,
+            mode: transcribeMode,
+            openaiApiKey,
+            openaiProxy: localStorage.getItem('openaiProxy'),
+            geminiApiKey,
+            geminiProxy,
+            localProxy,
+            feishuAppId,
+            feishuAppSecret,
+            feishuBitableToken
+          })
+        });
+
+        const result = await response.json();
+        
+        if (result.success) {
+          showToast('任务已创建，开始处理', 'success');
+          urlInput.value = '';
+          await loadTasks();
+          startPolling(result.taskId);
+        } else {
+          showToast(result.error || '创建任务失败', 'error');
+          btn.disabled = false;
+          btn.textContent = '开始处理';
+        }
+      } catch (error) {
+        showToast('网络错误，请重试', 'error');
+        btn.disabled = false;
+        btn.textContent = '开始处理';
+      }
+    }
+
+    function startPolling(taskId) {
+      if (pollInterval) clearInterval(pollInterval);
+      
+      pollInterval = setInterval(async () => {
+        try {
+          const response = await fetch(`/api/podcast/task/${taskId}`);
+          const result = await response.json();
+          
+          if (result.success) {
+            const task = result.task;
+            const taskIndex = tasks.findIndex(t => t.id === taskId);
+            if (taskIndex !== -1) {
+              tasks[taskIndex] = task;
+            }
+            renderTasks();
+
+            if (task.status === 'completed' || task.status === 'failed') {
+              clearInterval(pollInterval);
+              const btn = document.getElementById('processBtn');
+              btn.disabled = false;
+              btn.textContent = '开始处理';
+              
+              if (task.status === 'completed') {
+                showToast('处理完成！', 'success');
+              } else {
+                showToast('处理失败: ' + (task.error || '未知错误'), 'error');
+              }
+            }
+          }
+        } catch (error) {
+          console.error('轮询错误:', error);
+        }
+      }, 2000);
+    }
+
+    function goToTask(taskId) {
+      window.location.href = `/task/${taskId}`;
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function showToast(message, type = '') {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+
+    document.getElementById('podcastUrl').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        processPodcast();
+      }
+    });
+
+    loadTasks();
+  </script>
+</body>
+</html>

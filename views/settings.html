@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>设置 - 小宇宙总结助手</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" y1="19" x2="12" y2="22"/>
+        </svg>
+        小宇宙总结助手
+      </div>
+      <nav>
+        <a href="/">首页</a>
+        <a href="/settings" class="active">设置</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="settings-page">
+      <div class="settings-card">
+        <h1>设置中心</h1>
+
+        <div class="form-section">
+          <h3>飞书配置</h3>
+          <div class="form-group">
+            <label for="feishuAppId">飞书 App ID</label>
+            <input type="text" id="feishuAppId" placeholder="cli_xxx" />
+            <p class="hint">在飞书开放平台创建应用后获取</p>
+          </div>
+          <div class="form-group">
+            <label for="feishuAppSecret">飞书 App Secret</label>
+            <input type="password" id="feishuAppSecret" placeholder="xxx" />
+            <p class="hint">在飞书开放平台创建应用后获取</p>
+          </div>
+          <div class="form-group">
+            <label for="feishuBitableToken">飞书多维表格链接</label>
+            <input type="text" id="feishuBitableToken" placeholder="https://my.feishu.cn/base/xxx?table=xxx" />
+            <p class="hint">粘贴飞书多维表格的完整链接</p>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>API 配置</h3>
+          <div class="form-group">
+            <label for="openaiKey">OpenAI API Key (Whisper)</label>
+            <input type="password" id="openaiKey" placeholder="sk-..." />
+            <p class="hint">用于音频转文字，可在 https://platform.openai.com 获取</p>
+          </div>
+
+          <div class="form-group">
+            <label for="openaiProxy">OpenAI API 代理地址</label>
+            <input type="text" id="openaiProxy" placeholder="https://api.example.com/v1 (可选)" />
+            <p class="hint">如在中国大陆无法访问OpenAI API，需要填写代理地址</p>
+          </div>
+
+          <div class="form-group">
+            <label for="geminiKey">Gemini API Key</label>
+            <input type="password" id="geminiKey" placeholder="AIzaSyBZrHzu7sq2j1ATIX5ZvwVQ5i7KjTCAdo8" value="AIzaSyBZrHzu7sq2j1ATIX5ZvwVQ5i7KjTCAdo8" />
+            <p class="hint">用于AI总结，可在 https://aistudio.google.com/app/apikey 获取</p>
+          </div>
+
+          <div class="form-group">
+            <label for="geminiProxy">Gemini API 代理地址</label>
+            <input type="text" id="geminiProxy" placeholder="https://api.example.com/v1 (可选)" />
+            <p class="hint">如在中国大陆无法访问Google API，需要填写代理地址</p>
+          </div>
+
+          <div class="form-group">
+            <label for="localProxy">本地代理地址 (HTTP)</label>
+            <input type="text" id="localProxy" placeholder="http://127.0.0.1:7890 (可选)" />
+            <p class="hint">填写你本地运行的代理服务地址，如 Clash 的 http://127.0.0.1:7890</p>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>转录设置</h3>
+          <div class="form-group">
+            <label for="transcribeMode">转录模式</label>
+            <select id="transcribeMode">
+              <option value="fast">快速模式 (优先速度)</option>
+              <option value="accurate">精准模式 (优先准确度)</option>
+            </select>
+            <p class="hint">快速模式处理更快，精准模式识别更准确但耗时更长</p>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="saveSettings()">
+          保存设置
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const feishuAppId = localStorage.getItem('feishuAppId');
+      const feishuAppSecret = localStorage.getItem('feishuAppSecret');
+      const feishuBitableToken = localStorage.getItem('feishuBitableToken');
+      const openaiKey = localStorage.getItem('openaiApiKey');
+      const openaiProxy = localStorage.getItem('openaiProxy');
+      const geminiKey = localStorage.getItem('geminiApiKey');
+      const geminiProxy = localStorage.getItem('geminiProxy');
+      const localProxy = localStorage.getItem('localProxy');
+      const transcribeMode = localStorage.getItem('transcribeMode') || 'fast';
+
+      if (feishuAppId) document.getElementById('feishuAppId').value = feishuAppId;
+      if (feishuAppSecret) document.getElementById('feishuAppSecret').value = feishuAppSecret;
+      if (feishuBitableToken) document.getElementById('feishuBitableToken').value = feishuBitableToken;
+      if (openaiKey) document.getElementById('openaiKey').value = openaiKey;
+      if (openaiProxy) document.getElementById('openaiProxy').value = openaiProxy;
+      if (geminiKey) document.getElementById('geminiKey').value = geminiKey;
+      if (geminiProxy) document.getElementById('geminiProxy').value = geminiProxy;
+      if (localProxy) document.getElementById('localProxy').value = localProxy;
+      document.getElementById('transcribeMode').value = transcribeMode;
+    });
+
+    function saveSettings() {
+      const feishuAppId = document.getElementById('feishuAppId').value.trim();
+      const feishuAppSecret = document.getElementById('feishuAppSecret').value.trim();
+      const feishuBitableToken = document.getElementById('feishuBitableToken').value.trim();
+      const openaiKey = document.getElementById('openaiKey').value.trim();
+      const openaiProxy = document.getElementById('openaiProxy').value.trim();
+      const geminiKey = document.getElementById('geminiKey').value.trim();
+      const geminiProxy = document.getElementById('geminiProxy').value.trim();
+      const localProxy = document.getElementById('localProxy').value.trim();
+      const transcribeMode = document.getElementById('transcribeMode').value;
+
+      localStorage.setItem('feishuAppId', feishuAppId);
+      localStorage.setItem('feishuAppSecret', feishuAppSecret);
+      localStorage.setItem('feishuBitableToken', feishuBitableToken);
+      localStorage.setItem('openaiApiKey', openaiKey);
+      localStorage.setItem('openaiProxy', openaiProxy);
+      localStorage.setItem('geminiApiKey', geminiKey);
+      localStorage.setItem('geminiProxy', geminiProxy);
+      localStorage.setItem('localProxy', localProxy);
+      localStorage.setItem('transcribeMode', transcribeMode);
+
+      showToast('设置已保存', 'success');
+    }
+
+    function showToast(message, type = '') {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+  </script>
+
+  <style>
+    .form-section {
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .form-section:last-of-type {
+      border-bottom: none;
+    }
+    .form-section h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+  </style>
+</body>
+</html>
