@@ -37,18 +37,19 @@ async function pushToFeishuBitable(appId, appSecret, appToken, data) {
     let baseId = appToken;
     let tableId = 'default';
     
-    if (appToken.includes('base/')) {
-      const match = appToken.match(/base\/([^\?]+)/);
+    if (appToken.includes('base/') || appToken.includes('bitable/')) {
+      const match = appToken.match(/(?:base|bitable)\/([^\?]+)/);
       if (match) {
-        baseId = match[1];
+        baseId = match[1].split('?')[0];
       }
-      const tableMatch = appToken.match(/table=([^&]+)/);
+      const tableMatch = appToken.match(/tableId=([^&]+)/);
       if (tableMatch) {
-        tableId = tableMatch[1];
+        tableId = decodeURIComponent(tableMatch[1]);
       }
     }
     
     console.log('解析后的 Base ID:', baseId, 'Table ID:', tableId);
+    console.log('App Token 原始值:', appToken);
 
     const fields = {};
     if (data.title) fields['标题'] = data.title;
@@ -64,15 +65,11 @@ async function pushToFeishuBitable(appId, appSecret, appToken, data) {
 
     console.log('飞书请求字段:', JSON.stringify(fields, null, 2));
 
-    const requestBody = {
-      records: [
-        {
-          fields: fields
-        }
-      ]
-    };
+    const records = [{ fields: fields }];
+    const requestBody = { records };
     
     console.log('飞书请求体:', JSON.stringify(requestBody, null, 2));
+    console.log('请求URL:', `${baseUrl}/bitable/v1/apps/${baseId}/tables/${tableId}/records`);
 
     const response = await axios.post(
       `${baseUrl}/bitable/v1/apps/${baseId}/tables/${tableId}/records`,
@@ -85,12 +82,14 @@ async function pushToFeishuBitable(appId, appSecret, appToken, data) {
       }
     );
 
+    console.log('飞书响应:', JSON.stringify(response.data, null, 2));
+
     if (response.data.code === 0) {
       return {
         success: true,
         message: '已同步到飞书多维表格',
         data: {
-          recordId: response.data.data.record.record_id
+          recordId: response.data.data?.record?.record_id
         }
       };
     }
