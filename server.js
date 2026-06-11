@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
-const { spawn } = require('child_process');
 const session = require('express-session');
 const podcastRoutes = require('./routes/podcast');
 const { getOrCreateUser, getUser } = require('./services/db');
@@ -87,32 +86,7 @@ app.get('/settings', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'settings.html'));
 });
 
-// 启动 Whisper 服务
-let whisperProcess = null;
-function startWhisperServer() {
-  const pythonPath = process.env.PYTHON_PATH || 'python';
-  const scriptPath = path.join(__dirname, 'services', 'whisper_server.py');
-  if (!fs.existsSync(scriptPath)) {
-    console.log('Whisper 脚本不存在，跳过');
-    return;
-  }
-  try {
-    whisperProcess = spawn(pythonPath, [scriptPath], {
-      cwd: path.dirname(scriptPath),
-      env: { ...process.env, PYTHONIOENCODING: 'utf-8' },
-      stdio: ['ignore', 'pipe', 'pipe'],
-    });
-    whisperProcess.stdout.on('data', d => console.log(`[Whisper] ${d.toString('utf-8').trim()}`));
-    whisperProcess.stderr.on('data', d => console.log(`[Whisper] ${d.toString('utf-8').trim()}`));
-    whisperProcess.on('close', code => { console.log(`Whisper 退出 (${code})`); whisperProcess = null; });
-    whisperProcess.on('error', err => { console.log(`Whisper 启动失败: ${err.message}`); whisperProcess = null; });
-  } catch (err) { console.log(`Whisper 启动异常: ${err.message}`); }
-}
-
 app.listen(PORT, () => {
   console.log(`小宇宙总结助手 server running on http://localhost:${PORT}`);
-  startWhisperServer();
+  console.log(`转录引擎: whisper.cpp (CPU)`);
 });
-
-process.on('SIGINT', () => { if (whisperProcess) whisperProcess.kill(); process.exit(); });
-process.on('SIGTERM', () => { if (whisperProcess) whisperProcess.kill(); process.exit(); });

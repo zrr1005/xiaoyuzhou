@@ -1,0 +1,11 @@
+node_modules/
+npm-debug.log*
+.env
+data/app.db
+data/*.json
+data/whisper-cli
+data/ggml-base.bin
+*.mp3
+*.wav
+__pycache__/
+.trae/

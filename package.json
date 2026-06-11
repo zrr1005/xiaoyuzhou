@@ -4,8 +4,8 @@
   "description": "小宇宙播客总结助手 - AI自动化转录总结工具",
   "main": "server.js",
   "scripts": {
-    "start": "E:/programFiles/nodejs/node.exe server.js",
-    "dev": "E:/programFiles/nodejs/node.exe server.js"
+    "start": "node server.js",
+    "dev": "node server.js"
   },
   "dependencies": {
     "axios": "^1.6.0",

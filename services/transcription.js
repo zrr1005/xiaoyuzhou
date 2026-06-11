@@ -1,6 +1,37 @@
 const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
+const { ensureReady, runTranscription } = require('./whisper-cpp');
 
-const WHISPER_SERVER_URL = process.env.WHISPER_SERVER_URL || 'http://127.0.0.1:5001';
+async function downloadAudio(url, outputPath, onProgress, signal) {
+  const writer = fs.createWriteStream(outputPath);
+  const response = await axios({
+    url,
+    method: 'GET',
+    responseType: 'stream',
+    timeout: 300000,
+    signal,
+    headers: { 'User-Agent': 'Mozilla/5.0' },
+  });
+
+  const totalLength = parseInt(response.headers['content-length'], 10) || 0;
+  let downloaded = 0;
+
+  return new Promise((resolve, reject) => {
+    response.data.on('data', chunk => {
+      downloaded += chunk.length;
+      if (totalLength > 0 && onProgress) {
+        const pct = Math.min(15, 5 + Math.floor((downloaded / totalLength) * 10));
+        onProgress({ step: 'download', percent: pct, detail: `下载音频中... ${(downloaded / 1024 / 1024).toFixed(1)}MB` });
+      }
+    });
+    response.data.pipe(writer);
+    writer.on('finish', () => { writer.close(); resolve(); });
+    writer.on('error', reject);
+    response.data.on('error', reject);
+  });
+}
 
 async function transcribeAudio(audioUrl, mode = 'fast', onProgress = null, signal = null) {
   const report = (step, percent, detail, segments) => {
@@ -8,112 +39,89 @@ async function transcribeAudio(audioUrl, mode = 'fast', onProgress = null, signa
     if (onProgress) onProgress({ step, percent, detail, segments });
   };
 
-  // 检查服务就绪
+  report('init', 3, '初始化转录引擎...');
+  if (signal?.aborted) return { success: false, error: '已取消' };
+
+  // 确保 whisper.cpp 二进制和模型就绪
   try {
-    const health = await axios.get(`${WHISPER_SERVER_URL}/health`, { timeout: 3000 });
-    if (health.data.status !== 'ready') {
-      return { success: false, error: `Whisper 服务未就绪 (${health.data.status})` };
-    }
+    await ensureReady();
   } catch (e) {
-    return { success: false, error: '本地 Whisper 服务未启动' };
+    return { success: false, error: `转录引擎初始化失败: ${e.message}` };
   }
 
-  report('local', 5, '提交转录任务...');
+  report('init', 5, '下载音频中...');
 
-  // 提交转录任务
-  let jobId;
+  // 1. 下载音频
+  const tmpDir = os.tmpdir();
+  const audioPath = path.join(tmpDir, `whisper_${Date.now()}.mp3`);
+
   try {
-    const res = await axios.post(
-      `${WHISPER_SERVER_URL}/transcribe`,
-      { url: audioUrl, language: 'zh', beam_size: mode === 'accurate' ? 10 : 5, vad_filter: false },
-      { timeout: 30000, signal }
-    );
-    if (!res.data.success) {
-      return { success: false, error: res.data.error };
-    }
-    jobId = res.data.job_id;
+    await downloadAudio(audioUrl, audioPath, onProgress, signal);
   } catch (e) {
-    if (e.name === 'AbortError') throw e;
-    return { success: false, error: `提交转录失败: ${e.message}` };
+    if (e.name === 'AbortError') return { success: false, error: '已取消' };
+    return { success: false, error: `下载音频失败: ${e.message}` };
   }
 
-  report('local', 8, '正在下载音频并转录...');
+  if (signal?.aborted) {
+    try { fs.unlinkSync(audioPath); } catch {}
+    return { success: false, error: '已取消' };
+  }
 
-  // 轮询进度（最多等 30 分钟）
+  // 2. 转录
+  report('transcribe', 18, '转录中...');
+
   const startTime = Date.now();
-  const MAX_WAIT = 30 * 60 * 1000;
-  let lastSegmentCount = 0;
+  let lastReportedPct = 0;
 
-  while (true) {
-    if (Date.now() - startTime > MAX_WAIT) {
-      return { success: false, error: '转录超时（超过 30 分钟）' };
-    }
+  try {
+    const segments = await runTranscription(audioPath, {
+      language: 'zh',
+      beamSize: mode === 'accurate' ? 10 : 5,
+      onProgress: (pct) => {
+        // whisper.cpp 进度是 0-100%，映射到 18-90%
+        const mappedPct = Math.floor(18 + (pct / 100) * 72);
+        if (mappedPct > lastReportedPct + 2 || pct >= 100) {
+          lastReportedPct = mappedPct;
+          const elapsed = ((Date.now() - startTime) / 1000).toFixed(0);
+          report('transcribe', Math.min(90, mappedPct), `转录中... ${elapsed}s`);
+        }
+      },
+    });
+
     if (signal?.aborted) {
+      try { fs.unlinkSync(audioPath); } catch {}
       return { success: false, error: '已取消' };
     }
 
-    try {
-      const pollRes = await axios.get(
-        `${WHISPER_SERVER_URL}/transcribe/progress/${jobId}`,
-        { timeout: 5000 }
-      );
-      const job = pollRes.data;
+    // 3. 格式化输出
+    const formattedSegments = segments.map(seg => ({
+      time: formatTime(seg.start),
+      text: seg.text,
+    }));
 
-      if (!job.success) {
-        console.log('进度查询返回错误:', job.error);
-        await sleep(2000);
-        continue; // 不要 break，继续重试
-      }
+    const elapsed = ((Date.now() - startTime) / 1000).toFixed(0);
+    const fullText = formattedSegments.map(s => s.text).join(' ');
+    const duration = formattedSegments.length > 0
+      ? formattedSegments[formattedSegments.length - 1].time
+      : '0:00';
 
-      if (job.status === 'error') {
-        return { success: false, error: job.error || '转录失败' };
-      }
+    console.log(`转录完成: ${elapsed}s, ${formattedSegments.length} 段`);
 
-      if (job.status === 'done') {
-        const segments = job.segments.map(seg => ({
-          time: formatTime(seg.start),
-          text: seg.text,
-        }));
-        const elapsed = ((Date.now() - startTime) / 1000).toFixed(0);
-        console.log(`转录完成: ${elapsed}s, ${segments.length} 段`);
+    return {
+      success: true,
+      data: {
+        text: fullText,
+        segments: formattedSegments,
+        duration,
+        source: 'whisper-cpp-cpu',
+      },
+    };
 
-        return {
-          success: true,
-          data: {
-            text: job.full_text,
-            segments,
-            duration: job.duration,
-            source: 'local-whisper',
-          },
-        };
-      }
-
-      // 实时进度：有新增段落时回调
-      const currentCount = job.segment_count || 0;
-      if (currentCount > lastSegmentCount) {
-        lastSegmentCount = currentCount;
-        const recentSegments = (job.segments || []).slice(-30).map(seg => ({
-          time: formatTime(seg.start),
-          text: seg.text,
-        }));
-        const elapsed = job.elapsed || ((Date.now() - startTime) / 1000);
-        const pct = Math.min(90, 10 + Math.floor((elapsed / 1200) * 80)); // 粗糙估算
-        report('local', pct, `转录中... ${currentCount} 段`, recentSegments);
-      }
-
-    } catch (e) {
-      // 轮询失败，继续重试
-      console.log('轮询重试:', e.message);
-    }
-
-    await sleep(1500);
+  } catch (e) {
+    return { success: false, error: `转录失败: ${e.message}` };
+  } finally {
+    try { fs.unlinkSync(audioPath); } catch {}
   }
-
-  return { success: false, error: '转录超时或失败' };
-}
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function formatTime(seconds) {
