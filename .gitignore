@@ -1,11 +1,29 @@
 node_modules/
-.npm-cache/
-node_cache/
 .env
 *.log
 dist/
 .DS_Store
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-package-lock.json
+
+# Database
+data/
+
+# Python
+__pycache__/
+*.pyc
+
+# Temp / generated
+services/temp_audio.mp3
+transcript_*.txt
+
+# Dev scripts
+check_lines.py
+format_text.py
+process_text.py
+get_audio.js
+run_whisper.py
+
+# IDE
+.trae/
+
+# Personal notes
+fix.md

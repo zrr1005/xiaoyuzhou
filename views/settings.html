@@ -30,67 +30,19 @@
         <h1>设置中心</h1>
 
         <div class="form-section">
-          <h3>飞书配置</h3>
+          <h3>DeepSeek API Key</h3>
           <div class="form-group">
-            <label for="feishuAppId">飞书 App ID</label>
-            <input type="text" id="feishuAppId" placeholder="cli_xxx" />
-            <p class="hint">在飞书开放平台创建应用后获取</p>
-          </div>
-          <div class="form-group">
-            <label for="feishuAppSecret">飞书 App Secret</label>
-            <input type="password" id="feishuAppSecret" placeholder="xxx" />
-            <p class="hint">在飞书开放平台创建应用后获取</p>
-          </div>
-          <div class="form-group">
-            <label for="feishuBitableToken">飞书多维表格链接</label>
-            <input type="text" id="feishuBitableToken" placeholder="https://my.feishu.cn/base/xxx?table=xxx" />
-            <p class="hint">粘贴飞书多维表格的完整链接</p>
+            <label for="deepseekKey">API Key <span class="required">*</span></label>
+            <input type="password" id="deepseekKey" placeholder="sk-..." />
+            <p class="hint">
+              在 <a href="https://platform.deepseek.com/api_keys" target="_blank">platform.deepseek.com</a> 免费注册获取，新用户赠送额度
+            </p>
           </div>
         </div>
 
-        <div class="form-section">
-          <h3>API 配置</h3>
-          <div class="form-group">
-            <label for="openaiKey">OpenAI API Key (Whisper)</label>
-            <input type="password" id="openaiKey" placeholder="sk-..." />
-            <p class="hint">用于音频转文字，可在 https://platform.openai.com 获取</p>
-          </div>
-
-          <div class="form-group">
-            <label for="openaiProxy">OpenAI API 代理地址</label>
-            <input type="text" id="openaiProxy" placeholder="https://api.example.com/v1 (可选)" />
-            <p class="hint">如在中国大陆无法访问OpenAI API，需要填写代理地址</p>
-          </div>
-
-          <div class="form-group">
-            <label for="geminiKey">Gemini API Key</label>
-            <input type="password" id="geminiKey" placeholder="AIzaSy..." />
-            <p class="hint">用于AI总结，可在 https://aistudio.google.com/app/apikey 获取</p>
-          </div>
-
-          <div class="form-group">
-            <label for="geminiProxy">Gemini API 代理地址</label>
-            <input type="text" id="geminiProxy" placeholder="https://api.example.com/v1 (可选)" />
-            <p class="hint">如在中国大陆无法访问Google API，需要填写代理地址</p>
-          </div>
-
-          <div class="form-group">
-            <label for="localProxy">本地代理地址 (HTTP)</label>
-            <input type="text" id="localProxy" placeholder="http://127.0.0.1:7890 (可选)" />
-            <p class="hint">填写你本地运行的代理服务地址，如 Clash 的 http://127.0.0.1:7890</p>
-          </div>
-        </div>
-
-        <div class="form-section">
-          <h3>转录设置</h3>
-          <div class="form-group">
-            <label for="transcribeMode">转录模式</label>
-            <select id="transcribeMode">
-              <option value="fast">快速模式 (优先速度)</option>
-              <option value="accurate">精准模式 (优先准确度)</option>
-            </select>
-            <p class="hint">快速模式处理更快，精准模式识别更准确但耗时更长</p>
-          </div>
+        <div class="info-box">
+          <p><strong>转录</strong>：本地 Whisper 服务自动运行，无需配置</p>
+          <p><strong>总结</strong>：DeepSeek V4，国内直连，稳定快速</p>
         </div>
 
         <button class="btn btn-primary" onclick="saveSettings()">
@@ -102,75 +54,53 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const feishuAppId = localStorage.getItem('feishuAppId');
-      const feishuAppSecret = localStorage.getItem('feishuAppSecret');
-      const feishuBitableToken = localStorage.getItem('feishuBitableToken');
-      const openaiKey = localStorage.getItem('openaiApiKey');
-      const openaiProxy = localStorage.getItem('openaiProxy');
-      const geminiKey = localStorage.getItem('geminiApiKey');
-      const geminiProxy = localStorage.getItem('geminiProxy');
-      const localProxy = localStorage.getItem('localProxy');
-      const transcribeMode = localStorage.getItem('transcribeMode') || 'fast';
-
-      if (feishuAppId) document.getElementById('feishuAppId').value = feishuAppId;
-      if (feishuAppSecret) document.getElementById('feishuAppSecret').value = feishuAppSecret;
-      if (feishuBitableToken) document.getElementById('feishuBitableToken').value = feishuBitableToken;
-      if (openaiKey) document.getElementById('openaiKey').value = openaiKey;
-      if (openaiProxy) document.getElementById('openaiProxy').value = openaiProxy;
-      if (geminiKey) document.getElementById('geminiKey').value = geminiKey;
-      if (geminiProxy) document.getElementById('geminiProxy').value = geminiProxy;
-      if (localProxy) document.getElementById('localProxy').value = localProxy;
-      document.getElementById('transcribeMode').value = transcribeMode;
+      const key = localStorage.getItem('deepseekApiKey');
+      if (key) document.getElementById('deepseekKey').value = key;
     });
 
     function saveSettings() {
-      const feishuAppId = document.getElementById('feishuAppId').value.trim();
-      const feishuAppSecret = document.getElementById('feishuAppSecret').value.trim();
-      const feishuBitableToken = document.getElementById('feishuBitableToken').value.trim();
-      const openaiKey = document.getElementById('openaiKey').value.trim();
-      const openaiProxy = document.getElementById('openaiProxy').value.trim();
-      const geminiKey = document.getElementById('geminiKey').value.trim();
-      const geminiProxy = document.getElementById('geminiProxy').value.trim();
-      const localProxy = document.getElementById('localProxy').value.trim();
-      const transcribeMode = document.getElementById('transcribeMode').value;
-
-      localStorage.setItem('feishuAppId', feishuAppId);
-      localStorage.setItem('feishuAppSecret', feishuAppSecret);
-      localStorage.setItem('feishuBitableToken', feishuBitableToken);
-      localStorage.setItem('openaiApiKey', openaiKey);
-      localStorage.setItem('openaiProxy', openaiProxy);
-      localStorage.setItem('geminiApiKey', geminiKey);
-      localStorage.setItem('geminiProxy', geminiProxy);
-      localStorage.setItem('localProxy', localProxy);
-      localStorage.setItem('transcribeMode', transcribeMode);
-
+      const key = document.getElementById('deepseekKey').value.trim();
+      if (!key || key.length < 5) {
+        showToast('请输入有效的 DeepSeek API Key', 'error', true);
+        return;
+      }
+      localStorage.setItem('deepseekApiKey', key);
       showToast('设置已保存', 'success');
     }
 
-    function showToast(message, type = '') {
+    function showToast(message, type = '', persistent = false) {
       const toast = document.createElement('div');
-      toast.className = `toast ${type}`;
-      toast.textContent = message;
+      toast.className = `toast ${type} ${persistent ? 'persistent' : ''}`;
+      const content = document.createElement('span');
+      content.textContent = message;
+      toast.appendChild(content);
+      if (persistent) {
+        const closeBtn = document.createElement('span');
+        closeBtn.className = 'toast-close';
+        closeBtn.innerHTML = '&times;';
+        closeBtn.onclick = () => toast.remove();
+        toast.appendChild(closeBtn);
+      }
       document.body.appendChild(toast);
-      setTimeout(() => toast.remove(), 3000);
+      if (!persistent) setTimeout(() => { if (toast.parentNode) toast.remove(); }, 3000);
     }
   </script>
 
   <style>
-    .form-section {
-      margin-bottom: 32px;
-      padding-bottom: 24px;
-      border-bottom: 1px solid var(--border-color);
+    .form-section { margin-bottom: 24px; }
+    .form-section h3 { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: var(--text-primary); }
+    .required { color: var(--error-color); font-weight: 400; font-size: 13px; }
+    .info-box {
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      font-size: 14px;
+      line-height: 1.8;
+      color: #0369a1;
     }
-    .form-section:last-of-type {
-      border-bottom: none;
-    }
-    .form-section h3 {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 16px;
-      color: var(--text-primary);
-    }
+    .info-box p { margin: 0; }
   </style>
 </body>
 </html>

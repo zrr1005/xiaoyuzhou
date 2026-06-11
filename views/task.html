@@ -44,6 +44,7 @@
             <div class="podcast-cover">🎙️</div>
             <div class="podcast-title" id="podcastTitle">播客标题</div>
             <div class="podcast-url" id="podcastUrl"></div>
+            <div id="podcastExtra" style="margin-top:12px;font-size:13px;color:var(--text-secondary);"></div>
           </div>
         </div>
 
@@ -61,63 +62,97 @@
                 <div class="progress-fill" id="progressFill" style="width: 0%"></div>
               </div>
               <p id="statusText">正在解析链接...</p>
+              <p id="etaText" style="margin-top:8px;font-size:14px;color:var(--text-secondary);"></p>
+              <div id="liveTranscript" style="display:none; margin-top:16px; padding:16px; background:#fafaf7; border-radius:12px; max-height:300px; overflow-y:auto; font-size:14px; line-height:1.9; color:#555;"></div>
+              <div style="margin-top:16px;">
+                <button class="btn btn-stop" id="cancelBtn" onclick="cancelTask()">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
+                  停止处理
+                </button>
+              </div>
             </div>
           </div>
 
           <div id="resultContent" style="display: none;">
+            <!-- 价值主张 + 关键词 -->
+            <div class="summary-section hero-summary">
+              <div id="valueProposition" style="font-size:18px;font-weight:600;color:var(--primary-color);line-height:1.6;margin-bottom:12px;"></div>
+              <div id="keywordTags" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+            </div>
+
+            <!-- 核心摘要 -->
             <div class="summary-section">
-              <h2>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                  <polyline points="14 2 14 8 20 8"/>
-                  <line x1="16" y1="13" x2="8" y2="13"/>
-                  <line x1="16" y1="17" x2="8" y2="17"/>
-                </svg>
-                核心摘要
-              </h2>
+              <h2>📝 核心摘要</h2>
               <p class="core-summary" id="coreSummary"></p>
             </div>
 
+            <!-- 结构化大纲 -->
             <div class="summary-section">
-              <h2>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <line x1="8" y1="6" x2="21" y2="6"/>
-                  <line x1="8" y1="12" x2="21" y2="12"/>
-                  <line x1="8" y1="18" x2="21" y2="18"/>
-                  <line x1="3" y1="6" x2="3.01" y2="6"/>
-                  <line x1="3" y1="12" x2="3.01" y2="12"/>
-                  <line x1="3" y1="18" x2="3.01" y2="18"/>
-                </svg>
-                结构化大纲
-              </h2>
-              <ul class="outline-list" id="outlineList"></ul>
+              <h2>📋 结构化大纲</h2>
+              <div id="outlineList"></div>
             </div>
 
-            <div class="summary-section">
-              <h2>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="9 11 12 14 22 4"/>
-                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
-                </svg>
-                关键结论
-              </h2>
+            <!-- 启发式 Q&A -->
+            <div class="summary-section" id="qaSection" style="display:none;">
+              <h2>💬 深度 Q&A</h2>
+              <div id="qaList"></div>
+            </div>
+
+            <!-- 思维模型 -->
+            <div class="summary-section" id="mentalSection" style="display:none;">
+              <h2>🧠 思维模型</h2>
+              <div id="mentalList"></div>
+            </div>
+
+            <!-- 关键金句 -->
+            <div class="summary-section" id="conclusionSection" style="display:none;">
+              <h2>💡 关键金句</h2>
               <ul class="conclusion-list" id="conclusionList"></ul>
             </div>
 
-            <div class="summary-section">
-              <h2>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-                </svg>
-                延伸阅读
-              </h2>
-              <div class="external-links" id="externalLinks"></div>
+            <!-- 行动清单 -->
+            <div class="summary-section" id="actionSection" style="display:none;">
+              <h2>✅ 行动清单</h2>
+              <div id="actionList"></div>
             </div>
 
-            <button class="btn btn-primary" onclick="pushToFeishu()" id="pushBtn">
-              推送到飞书多维表格
-            </button>
+            <div class="summary-section">
+              <h2 id="transcriptToggle" style="display:flex; align-items:center; gap:8px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;">
+                  <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                  <line x1="12" y1="19" x2="12" y2="22"/>
+                </svg>
+                转录原文
+                <span style="display:flex; gap:8px; margin-left:auto; font-size:13px; font-weight:400;">
+                  <span id="tabRaw" onclick="switchTranscriptTab('raw')" style="cursor:pointer; padding:4px 12px; border-radius:6px; background:var(--primary-color); color:#fff;">原文</span>
+                  <span id="tabDialogue" onclick="switchTranscriptTab('dialogue')" style="cursor:pointer; padding:4px 12px; border-radius:6px; background:#eee; color:#888;">对话</span>
+                </span>
+                <span id="transcriptArrow" onclick="toggleTranscript()" style="cursor:pointer; font-size:13px; font-weight:400; color:#888; margin-left:4px;">▼ 收起</span>
+              </h2>
+              <div id="transcriptContent" style="margin-top:12px;">
+                <div id="transcriptSource" style="font-size:12px;color:var(--text-secondary);margin-bottom:8px;"></div>
+                <div id="transcriptSegments" style="max-height:500px; overflow-y:auto; line-height:1.8; font-size:14px; color:#444;"></div>
+                <pre id="dialogueContent" style="display:none; max-height:500px; overflow-y:auto; line-height:2; font-size:14px; color:#444; white-space:pre-wrap; font-family:inherit; margin:0;"></pre>
+              </div>
+            </div>
+
+            <div id="noteActions" style="margin-top:24px; display:flex; gap:12px; flex-wrap:wrap;">
+              <a class="btn btn-primary" id="noteLink" href="#" target="_blank" style="text-decoration:none; display:inline-block; text-align:center;">
+                查看小红书笔记
+              </a>
+              <button class="btn btn-secondary" onclick="copyNoteUrl()" id="copyBtn">
+                复制笔记链接
+              </button>
+              <button class="btn btn-retry" onclick="retryTask()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M20.49 15.74a9 9 0 1 1-3.12-11.65"/></svg>
+                重新处理
+              </button>
+              <button class="btn btn-secondary" onclick="downloadTranscript()" id="downloadBtn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                下载原文
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -127,91 +162,304 @@
   <script>
     const taskId = window.location.pathname.split('/').pop();
     let pollInterval = null;
+    let currentTask = null;
+
+    function formatETA(seconds) {
+      if (!seconds || seconds < 0) return '';
+      if (seconds < 60) return `约 ${seconds} 秒`;
+      if (seconds < 3600) return `约 ${Math.ceil(seconds / 60)} 分钟`;
+      return `约 ${Math.floor(seconds / 60)} 分 ${seconds % 60} 秒`;
+    }
 
     async function loadTask() {
       try {
         const response = await fetch(`/api/podcast/task/${taskId}`);
         const result = await response.json();
-        
-        if (!result.success) {
-          showToast('加载任务失败', 'error');
-          return;
-        }
+        if (!result.success) { showToast('加载任务失败', 'error'); return; }
 
         const task = result.task;
-        
+        currentTask = task;
+
         document.getElementById('podcastTitle').textContent = task.podcastInfo?.title || '播客标题';
         document.getElementById('podcastUrl').textContent = task.url;
-        
+
+        const extraEl = document.getElementById('podcastExtra');
+        let extraHtml = '';
+        if (task.elapsedSeconds != null && task.status === 'completed') {
+          extraHtml += `<div>总耗时: ${formatETA(task.elapsedSeconds)}</div>`;
+          const steps = task.stepTimes || {};
+          const labels = { parse:'解析', transcribe:'转录', dialogue:'对话拆解', summary:'AI总结', note:'生成笔记' };
+          for (const [k, v] of Object.entries(labels)) {
+            if (steps[k]) extraHtml += `<div style="font-size:12px;color:#888;">${v}: ${steps[k]}s</div>`;
+          }
+        }
+        if (task.elapsedSeconds != null && task.status === 'cancelled') {
+          extraHtml += `<div>已取消</div>`;
+        }
+        if (task.audioDuration) {
+          const mins = Math.floor(task.audioDuration / 60);
+          const secs = Math.floor(task.audioDuration % 60);
+          extraHtml += `<div>音频时长: ${mins}:${String(secs).padStart(2,'0')}</div>`;
+        }
+        if (task.transcribeSource) {
+          const names = { 'gemini-api': 'Gemini 云端', 'gemini-api-inline': 'Gemini 云端', 'local-whisper-server': '本地 Whisper', 'local-whisper-spawn': '本地 Whisper', 'openai-whisper-api': 'OpenAI Whisper' };
+          extraHtml += `<div>转录方式: ${names[task.transcribeSource] || task.transcribeSource}</div>`;
+        }
+        extraEl.innerHTML = extraHtml;
+
         document.getElementById('loadingState').style.display = 'none';
         document.getElementById('taskContent').style.display = 'block';
 
         if (task.status === 'completed') {
           showResult(task);
         } else if (task.status === 'failed') {
-          showToast('处理失败: ' + (task.error || '未知错误'), 'error');
+          showToast('处理失败: ' + (task.error || '未知错误'), 'error', true);
+          showProgress(task);
+        } else if (task.status === 'cancelled') {
+          showToast('任务已取消', '', true);
           showProgress(task);
         } else {
           showProgress(task);
           startPolling();
         }
       } catch (error) {
-        showToast('加载任务失败', 'error');
+        showToast('加载任务失败', 'error', true);
       }
     }
 
     function showProgress(task) {
-      const statusTexts = {
-        'parsing': '正在解析播客信息...',
-        'transcribing': '正在转录音频...',
-        'summarizing': '正在生成AI总结...',
-        'processing': '处理中...'
-      };
-      
+      const isActive = task.status !== 'completed' && task.status !== 'failed' && task.status !== 'cancelled';
+
       document.getElementById('processingStatus').style.display = 'block';
       document.getElementById('resultContent').style.display = 'none';
-      document.getElementById('progressFill').style.width = task.progress + '%';
-      document.getElementById('statusText').textContent = statusTexts[task.status] || '处理中...';
+      document.getElementById('progressFill').style.width = (task.progress || 0) + '%';
+      document.getElementById('statusText').textContent = task.progressLabel || '处理中...';
+
+      // 停止按钮：只在活跃状态显示
+      document.getElementById('cancelBtn').style.display = isActive ? '' : 'none';
+
+      const etaEl = document.getElementById('etaText');
+      if (isActive && task.remainingSeconds != null && task.remainingSeconds > 0) {
+        etaEl.textContent = '预计剩余: ' + formatETA(task.remainingSeconds);
+        etaEl.style.display = '';
+      } else if (!isActive) {
+        etaEl.textContent = task.status === 'cancelled' ? '已取消' : '';
+        etaEl.style.display = '';
+      } else {
+        etaEl.style.display = 'none';
+      }
+
+      // 显示实时转录
+      const liveEl = document.getElementById('liveTranscript');
+      if (task.liveSegments && task.liveSegments.length > 0) {
+        liveEl.style.display = '';
+        liveEl.innerHTML = task.liveSegments.map(s =>
+          `<span style="color:#e17055;font-size:12px;margin-right:6px;">${s.time}</span>${s.text}`
+        ).join(' ');
+      } else {
+        liveEl.style.display = 'none';
+      }
     }
 
     function showResult(task) {
       document.getElementById('processingStatus').style.display = 'none';
       document.getElementById('resultContent').style.display = 'block';
 
-      const summary = task.summary;
-      
-      document.getElementById('coreSummary').textContent = summary.coreSummary;
+      const s = task.summary || {};
 
-      const outlineList = document.getElementById('outlineList');
-      outlineList.innerHTML = summary.outline.map(item => `
-        <li>
-          <span class="timestamp">${item.timestamp}</span>
-          <span class="topic">${item.topic}</span>
-        </li>
-      `).join('');
+      // 价值主张
+      document.getElementById('valueProposition').textContent = s.valueProposition || '';
 
+      // 关键词
+      const kwEl = document.getElementById('keywordTags');
+      kwEl.innerHTML = (s.keywords || []).map(k => `<span class="tag keyword">#${k}</span>`).join('');
+
+      // 核心摘要
+      document.getElementById('coreSummary').textContent = s.coreSummary || '暂无摘要';
+
+      // 二级大纲
+      const outlineEl = document.getElementById('outlineList');
+      if (s.outline && s.outline.length > 0) {
+        outlineEl.innerHTML = s.outline.map(o => `
+          <div class="outline-block">
+            <div class="outline-title"><span class="timestamp">${o.timestamp}</span> ${o.title}</div>
+            <ul class="outline-points">${(o.points || []).map(p => `<li>${p}</li>`).join('')}</ul>
+          </div>
+        `).join('');
+      } else {
+        outlineEl.innerHTML = '<p style="color:#999;">暂无大纲</p>';
+      }
+
+      // Q&A
+      const qaSection = document.getElementById('qaSection');
+      const qaList = document.getElementById('qaList');
+      if (s.qa && s.qa.length > 0) {
+        qaSection.style.display = '';
+        qaList.innerHTML = s.qa.map(q => `
+          <div class="qa-item">
+            <div class="qa-q">Q: ${q.question}</div>
+            <div class="qa-a">A: ${q.answer}</div>
+          </div>
+        `).join('');
+      } else { qaSection.style.display = 'none'; }
+
+      // 思维模型
+      const mentalSection = document.getElementById('mentalSection');
+      const mentalList = document.getElementById('mentalList');
+      if (s.mentalModels && s.mentalModels.length > 0) {
+        mentalSection.style.display = '';
+        mentalList.innerHTML = s.mentalModels.map(m => `
+          <div class="mental-item">
+            <div class="mental-name">${m.name}</div>
+            <div class="mental-insight">${m.insight}</div>
+          </div>
+        `).join('');
+      } else { mentalSection.style.display = 'none'; }
+
+      // 关键金句
+      const conclusionSection = document.getElementById('conclusionSection');
       const conclusionList = document.getElementById('conclusionList');
-      conclusionList.innerHTML = summary.keyConclusions.map(item => `
-        <li>${item}</li>
-      `).join('');
+      if (s.keyConclusions && s.keyConclusions.length > 0) {
+        conclusionSection.style.display = '';
+        conclusionList.innerHTML = s.keyConclusions.map(item => `<li>${item}</li>`).join('');
+      } else { conclusionSection.style.display = 'none'; }
 
-      const externalLinks = document.getElementById('externalLinks');
-      externalLinks.innerHTML = summary.externalLinks.map(item => `
-        <span class="tag ${item.type}">${item.name}</span>
-      `).join('');
+      // 行动清单
+      const actionSection = document.getElementById('actionSection');
+      const actionList = document.getElementById('actionList');
+      if (s.actionItems && s.actionItems.length > 0) {
+        actionSection.style.display = '';
+        actionList.innerHTML = s.actionItems.map(a => `
+          <div class="action-item">
+            <span class="tag ${a.type || 'other'}">${a.type === 'book' ? '📖' : a.type === 'tool' ? '🛠' : '💡'} ${a.name}</span>
+            <span style="font-size:14px;color:#666;">${a.reason}</span>
+          </div>
+        `).join('');
+      } else { actionSection.style.display = 'none'; }
+
+      const segments = task.transcription?.segments;
+      const transcriptEl = document.getElementById('transcriptSegments');
+      const sourceEl = document.getElementById('transcriptSource');
+      const sourceNames = {
+        'gemini-api': 'Gemini 云端转录', 'gemini-api-inline': 'Gemini 云端转录',
+        'local-whisper-server': '本地 Faster-Whisper 转录', 'local-whisper-spawn': '本地 Faster-Whisper 转录',
+        'openai-whisper-api': 'OpenAI Whisper API 转录',
+      };
+      sourceEl.textContent = sourceNames[task.transcribeSource] || '转录原文';
+
+      // 设置小红书笔记链接
+      setupNoteActions(task.noteUrl);
+
+      if (segments && segments.length > 0) {
+        transcriptEl.innerHTML = segments.map(s => `
+          <div style="display:flex; gap:12px; padding:6px 0; border-bottom:1px solid #f0f0f0;">
+            <span style="flex-shrink:0; color:#7c6bd6; font-variant-numeric:tabular-nums; font-size:13px; padding-top:1px;">${s.time}</span>
+            <span>${s.text}</span>
+          </div>
+        `).join('');
+      } else if (task.transcription?.text) {
+        transcriptEl.innerHTML = `<p style="white-space:pre-wrap;">${task.transcription.text}</p>`;
+      } else {
+        transcriptEl.innerHTML = '<p style="color:#999;">暂无原文数据</p>';
+      }
+
+      // 对话内容
+      const dialogueEl = document.getElementById('dialogueContent');
+      if (task.dialogue) {
+        dialogueEl.textContent = task.dialogue;
+        document.getElementById('tabDialogue').style.display = '';
+      } else {
+        dialogueEl.textContent = '暂无可用的对话拆解';
+        document.getElementById('tabDialogue').style.display = 'none';
+      }
+      // 默认显示原文
+      switchTranscriptTab('raw');
+    }
+
+    function toggleTranscript() {
+      const content = document.getElementById('transcriptContent');
+      const arrow = document.getElementById('transcriptArrow');
+      const isHidden = content.style.display === 'none';
+      content.style.display = isHidden ? '' : 'none';
+      arrow.textContent = isHidden ? '▼ 收起' : '▶ 展开';
+    }
+
+    function switchTranscriptTab(tab) {
+      const segEl = document.getElementById('transcriptSegments');
+      const diaEl = document.getElementById('dialogueContent');
+      const tabRaw = document.getElementById('tabRaw');
+      const tabDialogue = document.getElementById('tabDialogue');
+      if (tab === 'raw') {
+        segEl.style.display = '';
+        diaEl.style.display = 'none';
+        tabRaw.style.background = 'var(--primary-color)';
+        tabRaw.style.color = '#fff';
+        tabDialogue.style.background = '#eee';
+        tabDialogue.style.color = '#888';
+      } else {
+        segEl.style.display = 'none';
+        diaEl.style.display = '';
+        tabRaw.style.background = '#eee';
+        tabRaw.style.color = '#888';
+        tabDialogue.style.background = 'var(--primary-color)';
+        tabDialogue.style.color = '#fff';
+      }
+    }
+
+    async function retryTask() {
+      if (!confirm('使用相同链接重新处理？')) return;
+
+      const deepseekApiKey = localStorage.getItem('deepseekApiKey');
+      const deepseekApiBase = localStorage.getItem('deepseekApiBase');
+
+      try {
+        const response = await fetch(`/api/podcast/retry/${taskId}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ deepseekApiKey, deepseekApiBase }),
+        });
+        const result = await response.json();
+        if (result.success) {
+          // 跳转到新任务
+          window.location.href = `/task/${result.taskId}`;
+        } else {
+          showToast(result.error || '重试失败', 'error', true);
+        }
+      } catch (e) {
+        showToast('网络错误', 'error', true);
+      }
+    }
+
+    async function cancelTask() {
+      if (!confirm('确定要停止这个任务吗？')) return;
+
+      try {
+        const response = await fetch(`/api/podcast/cancel/${taskId}`, { method: 'POST' });
+        const result = await response.json();
+        if (result.success) {
+          if (pollInterval) { clearInterval(pollInterval); pollInterval = null; }
+          showToast('任务已停止', 'success');
+          // 重新加载任务状态
+          setTimeout(() => loadTask(), 500);
+        } else {
+          showToast(result.error || '取消失败', 'error', true);
+        }
+      } catch (e) {
+        showToast('网络错误', 'error', true);
+      }
     }
 
     function startPolling() {
       if (pollInterval) clearInterval(pollInterval);
-      
+
       pollInterval = setInterval(async () => {
         try {
           const response = await fetch(`/api/podcast/task/${taskId}`);
           const result = await response.json();
-          
+
           if (result.success) {
             const task = result.task;
-            
+
             if (task.status === 'completed') {
               clearInterval(pollInterval);
               showResult(task);
@@ -219,7 +467,11 @@
             } else if (task.status === 'failed') {
               clearInterval(pollInterval);
               showProgress(task);
-              showToast('处理失败: ' + (task.error || '未知错误'), 'error');
+              showToast('处理失败: ' + (task.error || '未知错误'), 'error', true);
+            } else if (task.status === 'cancelled') {
+              clearInterval(pollInterval);
+              showProgress(task);
+              showToast('任务已取消', '', true);
             } else {
               showProgress(task);
             }
@@ -227,60 +479,69 @@
         } catch (error) {
           console.error('轮询错误:', error);
         }
-      }, 2000);
+      }, 1500);
     }
 
-    async function pushToFeishu() {
-      const feishuAppId = localStorage.getItem('feishuAppId');
-      const feishuAppSecret = localStorage.getItem('feishuAppSecret');
-      const feishuBitableToken = localStorage.getItem('feishuBitableToken');
-      
-      if (!feishuAppId || !feishuAppSecret || !feishuBitableToken) {
-        showToast('请先在设置中配置飞书参数', 'error');
-        window.location.href = '/settings';
+    function setupNoteActions(noteUrl) {
+      const linkEl = document.getElementById('noteLink');
+      if (noteUrl) {
+        linkEl.href = noteUrl;
+        linkEl.style.display = '';
+        document.getElementById('copyBtn').style.display = '';
+      } else {
+        linkEl.style.display = 'none';
+        document.getElementById('copyBtn').style.display = 'none';
+      }
+    }
+
+    function copyNoteUrl() {
+      const url = document.getElementById('noteLink').href;
+      if (!url) return;
+      navigator.clipboard.writeText(url).then(() => {
+        showToast('笔记链接已复制', 'success');
+      }).catch(() => {
+        showToast('复制失败，请手动复制链接', 'error', true);
+      });
+    }
+
+    function downloadTranscript() {
+      if (!currentTask || !currentTask.transcription) {
+        showToast('暂无转录原文', 'error', true);
         return;
       }
-
-      const btn = document.getElementById('pushBtn');
-      btn.disabled = true;
-      btn.textContent = '推送中...';
-
-      try {
-        const response = await fetch('/api/podcast/push-feishu-bitable', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            taskId, 
-            feishuAppId,
-            feishuAppSecret,
-            feishuBitableToken
-          })
-        });
-
-        const result = await response.json();
-        
-        if (result.success) {
-          showToast('推送成功！', 'success');
-        } else {
-          showToast(result.error || '推送失败', 'error');
-        }
-      } catch (error) {
-        showToast('推送失败', 'error');
-      } finally {
-        btn.disabled = false;
-        btn.textContent = '推送到飞书多维表格';
+      const segments = currentTask.transcription.segments || [];
+      let text = '';
+      if (segments.length > 0) {
+        text = segments.map(s => `[${s.time}] ${s.text}`).join('\n');
+      } else {
+        text = currentTask.transcription.text || '';
       }
+      const title = (currentTask.podcastInfo?.title || 'transcript').replace(/[\\/:*?"<>|]/g, '_');
+      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `${title}.txt`;
+      a.click();
+      showToast('原文已下载', 'success');
     }
 
-    function showToast(message, type = '') {
+    function showToast(message, type = '', persistent = false) {
       const toast = document.createElement('div');
-      toast.className = `toast ${type}`;
-      toast.textContent = message;
+      toast.className = `toast ${type} ${persistent ? 'persistent' : ''}`;
+      const content = document.createElement('span');
+      content.textContent = message;
+      toast.appendChild(content);
+
+      if (persistent) {
+        const closeBtn = document.createElement('span');
+        closeBtn.className = 'toast-close';
+        closeBtn.innerHTML = '&times;';
+        closeBtn.onclick = () => toast.remove();
+        toast.appendChild(closeBtn);
+      }
+
       document.body.appendChild(toast);
-      
-      setTimeout(() => {
-        toast.remove();
-      }, 3000);
+      if (!persistent) setTimeout(() => { if (toast.parentNode) toast.remove(); }, 3000);
     }
 
     loadTask();

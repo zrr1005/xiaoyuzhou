@@ -27,6 +27,23 @@ async function parseXiaoyuzhou(url) {
       audioUrl = twitterPlayer;
     }
 
+    let fullText = '';
+    let outline = [];
+    
+    const bodyText = $('body').text();
+    if (bodyText && bodyText.length > 200) {
+      fullText = bodyText.replace(/\s+/g, ' ').trim();
+    }
+    
+    const timePattern = /(\d{2}:\d{2}:\d{2}|\d{2}:\d{2})\s*([^：:\n]+)/g;
+    let match;
+    while ((match = timePattern.exec(fullText)) !== null) {
+      outline.push({
+        timestamp: match[1],
+        topic: match[2].trim()
+      });
+    }
+
     return {
       success: true,
       data: {
@@ -34,7 +51,9 @@ async function parseXiaoyuzhou(url) {
         description,
         image,
         audioUrl,
-        originalUrl: url
+        originalUrl: url,
+        fullText: fullText,
+        outline: outline
       }
     };
   } catch (error) {

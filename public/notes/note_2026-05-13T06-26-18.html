@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>140. 对姚顺宇的4小时访谈：请允许我小疯一下！在Anthropic和Gemini训模型、技术预测、英雄主义已过去 - 张小珺Jùn｜商业访谈录 | 小宇宙 - 听播客，上小宇宙 - 小宇宙笔记</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Serif+SC:wght@400;600;700&family=Ma+Shan+Zheng&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #f5f0e8;
+    display: flex;
+    justify-content: center;
+    padding: 40px 16px;
+    font-family: 'Noto Serif SC', serif;
+  }
+
+  .note-container {
+    max-width: 750px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .note-card {
+    background: #fffef9;
+    border-radius: 20px;
+    padding: 32px 28px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .note-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+    border-radius: 20px 20px 0 0;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px dashed #e8e0d5;
+  }
+
+  .avatar {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 22px; font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .meta { flex: 1; }
+  .meta .name { font-weight: 700; font-size: 16px; color: #2d3436; }
+  .meta .date { font-size: 13px; color: #b2bec3; margin-top: 2px; }
+
+  .title-section { margin-bottom: 24px; }
+  .title-section h1 {
+    font-family: 'ZCOOL KuaiLe', 'Ma Shan Zheng', cursive;
+    font-size: 26px;
+    color: #2d3436;
+    line-height: 1.4;
+    font-weight: 400;
+  }
+  .title-section .podcast-tag {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 4px 14px;
+    background: #ffe0e0;
+    color: #e17055;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .section { margin-top: 28px; }
+  .section h2 {
+    font-family: 'ZCOOL KuaiLe', cursive;
+    font-size: 20px;
+    font-weight: 400;
+    color: #e17055;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section h2 .icon { font-size: 22px; }
+
+  .summary-text {
+    font-size: 16px;
+    line-height: 1.9;
+    color: #444;
+    background: #fdf6f0;
+    padding: 20px 22px;
+    border-radius: 14px;
+    border-left: 3px solid #e17055;
+  }
+
+  .outline-item {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px dotted #eee;
+    font-size: 15px;
+    color: #555;
+  }
+  .outline-item:last-child { border-bottom: none; }
+
+  .time-badge {
+    flex-shrink: 0;
+    padding: 2px 8px;
+    background: #ffe0e0;
+    color: #e17055;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: monospace;
+  }
+
+  .conclusion-item {
+    padding: 10px 0;
+    padding-left: 24px;
+    border-bottom: 1px dotted #eee;
+    font-size: 15px;
+    color: #555;
+    position: relative;
+  }
+  .conclusion-item::before {
+    content: '▸';
+    position: absolute;
+    left: 4px;
+    color: #e17055;
+    font-size: 13px;
+  }
+  .conclusion-item:last-child { border-bottom: none; }
+
+  .link-tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .link-tag {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .link-tag.book { background: #dbeafe; color: #1d4ed8; }
+  .link-tag.person { background: #fce7f3; color: #be185d; }
+  .link-tag.organization { background: #d1fae5; color: #059669; }
+  .link-tag.software { background: #fef3c7; color: #d97706; }
+
+  .transcript-section {
+    cursor: pointer;
+  }
+  .transcript-body {
+    max-height: 500px;
+    overflow-y: auto;
+    background: #fafaf7;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 14px;
+    line-height: 1.9;
+  }
+  .transcript-line {
+    display: flex; gap: 10px;
+    padding: 5px 0;
+    border-bottom: 1px solid #f0f0f0;
+    color: #666;
+  }
+  .transcript-line .ts {
+    flex-shrink: 0;
+    color: #e17055;
+    font-size: 12px;
+    font-family: monospace;
+    padding-top: 2px;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 32px 16px;
+    color: #b2bec3;
+    font-size: 14px;
+  }
+  .footer .stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: 12px;
+  }
+  .footer .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+  .footer .stat-num { font-size: 22px; font-weight: 700; color: #636e72; }
+  .footer .stat-label { font-size: 12px; color: #b2bec3; }
+
+  @media (max-width: 500px) {
+    .note-card { padding: 20px 16px; }
+    .title-section h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="note-container">
+
+  <!-- 封面卡片 -->
+  <div class="note-card">
+    <div class="card-header">
+      <div class="avatar">🎙</div>
+      <div class="meta">
+        <div class="name">小宇宙总结助手</div>
+        <div class="date">2026年5月13日</div>
+      </div>
+    </div>
+    <div class="title-section">
+      <h1>📻 140. 对姚顺宇的4小时访谈：请允许我小疯一下！在Anthropic和Gemini训模型、技术预测、英雄主义已过去 - 张小珺Jùn｜商业访谈录 | 小宇宙 - 听播客，上小宇宙</h1>
+      <span class="podcast-tag">🎧 播客笔记</span>
+      
+      <span class="podcast-tag" style="margin-left:6px;background:#e3f2fd;color:#1565c0;">local-whisper</span>
+    </div>
+  </div>
+
+  <!-- 核心摘要 -->
+  <div class="note-card">
+    <div class="section">
+      <h2><span class="icon">📝</span> 核心摘要</h2>
+      <div class="summary-text">本次访谈深入探讨了AI大模型领域的训练经验、技术趋势与行业思考。嘉宾姚顺宇分享了在Anthropic和Google Gemini团队参与模型训练的心得，包括RLHF技术、数据质量的重要性以及模型对齐的挑战。他预测未来AI将向更高效、更通用的方向发展，并强调了开源与闭源模型的竞争态势。此外，他还反思了技术英雄主义的消退，认为当前AI发展更依赖团队协作与系统工程。访谈还涉及了AI安全、职业发展建议等话题。</div>
+    </div>
+  </div>
+
+  
+  <!-- 大纲 -->
+  <div class="note-card">
+    <div class="section">
+      <h2><span class="icon">📋</span> 内容大纲</h2>
+      
+    <div class="outline-item">
+      <span class="time-badge">00:00</span>
+      <span>开场与嘉宾背景介绍</span>
+    </div>
+  
+    <div class="outline-item">
+      <span class="time-badge">05:00</span>
+      <span>在Anthropic训练模型的经验</span>
+    </div>
+  
+    <div class="outline-item">
+      <span class="time-badge">30:00</span>
+      <span>RLHF技术与数据质量</span>
+    </div>
+  
+    <div class="outline-item">
+      <span class="time-badge">60:00</span>
+      <span>参与Gemini项目的经历与对比</span>
+    </div>
+  
+    <div class="outline-item">
+      <span class="time-badge">90:00</span>
+      <span>技术预测：未来AI发展方向</span>
+    </div>
+  
+    <div class="outline-item">
+      <span class="time-badge">120:00</span>
+      <span>开源与闭源模型的竞争</span>
+    </div>
+  
+    <div class="outline-item">
+      <span class="time-badge">150:00</span>
+      <span>英雄主义已过去：团队协作的重要性</span>
+    </div>
+  
+    <div class="outline-item">
+      <span class="time-badge">180:00</span>
+      <span>AI安全与伦理思考</span>
+    </div>
+  
+    <div class="outline-item">
+      <span class="time-badge">210:00</span>
+      <span>对从业者的建议与总结</span>
+    </div>
+  
+    </div>
+  </div>
+  
+
+  
+  <!-- 关键结论 -->
+  <div class="note-card">
+    <div class="section">
+      <h2><span class="icon">💡</span> 关键金句</h2>
+      
+    <div class="conclusion-item">数据质量和RLHF技术是训练优秀模型的关键，比单纯增加算力更重要。</div>
+  
+    <div class="conclusion-item">未来AI将趋向更高效、更通用的模型，但安全对齐仍是重大挑战。</div>
+  
+    <div class="conclusion-item">当前AI发展已从个人英雄主义转向系统工程与团队协作。</div>
+  
+    </div>
+  </div>
+  
+
+  
+  <!-- 延伸阅读 -->
+  <div class="note-card">
+    <div class="section">
+      <h2><span class="icon">📚</span> 延伸阅读</h2>
+      <div class="link-tags">
+    <span class="link-tag organization">Anthropic</span>
+  
+    <span class="link-tag organization">Google Gemini</span>
+  
+    <span class="link-tag software">RLHF（人类反馈强化学习）</span>
+  </div>
+    </div>
+  </div>
+  
+
+  <!-- 转录原文 -->
+  <div class="note-card">
+    <div class="section">
+      <h2 style="cursor:pointer;" onclick="var el=document.getElementById('tsBody');var s=el.style.display==='none'?'block':'none';el.style.display=s;">
+        <span class="icon">🎤</span> 转录原文
+        <span style="font-size:14px;font-weight:400;color:#b2bec3;margin-left:8px;">(点击展开)</span>
+      </h2>
+      <div class="transcript-body" id="tsBody" style="display:none;">
+        <p style="color:#999;">暂无转录原文</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="stats">
+      <div class="stat-item">
+        <span class="stat-num">9</span>
+        <span class="stat-label">话题节点</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">3</span>
+        <span class="stat-label">关键金句</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">0</span>
+        <span class="stat-label">转录段落</span>
+      </div>
+    </div>
+    <div>由 小宇宙总结助手 自动生成 · 2026年5月13日</div>
+  </div>
+
+</div>
+</body>
+</html>

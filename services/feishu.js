@@ -37,14 +37,18 @@ async function pushToFeishuBitable(appId, appSecret, appToken, data) {
     let baseId = appToken;
     let tableId = 'default';
     
-    if (appToken.includes('base/') || appToken.includes('bitable/')) {
+    if (appToken.includes('base/') || appToken.includes('bitable/') || appToken.includes('?')) {
       const match = appToken.match(/(?:base|bitable)\/([^\?]+)/);
       if (match) {
         baseId = match[1].split('?')[0];
       }
-      const tableMatch = appToken.match(/tableId=([^&]+)/);
+      const tableMatch = appToken.match(/table=([^&]+)/);
       if (tableMatch) {
         tableId = decodeURIComponent(tableMatch[1]);
+      }
+      const tableIdMatch = appToken.match(/tableId=([^&]+)/);
+      if (tableIdMatch) {
+        tableId = decodeURIComponent(tableIdMatch[1]);
       }
     }
     

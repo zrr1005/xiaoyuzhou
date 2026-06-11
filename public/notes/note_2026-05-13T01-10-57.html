@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>140. 对姚顺宇的4小时访谈：请允许我小疯一下！在Anthropic和Gemini训模型、技术预测、英雄主义已过去 - 张小珺Jùn｜商业访谈录 | 小宇宙 - 听播客，上小宇宙 - 小宇宙笔记</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Serif+SC:wght@400;600;700&family=Ma+Shan+Zheng&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #f5f0e8;
+    display: flex;
+    justify-content: center;
+    padding: 40px 16px;
+    font-family: 'Noto Serif SC', serif;
+  }
+
+  .note-container {
+    max-width: 750px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .note-card {
+    background: #fffef9;
+    border-radius: 20px;
+    padding: 32px 28px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .note-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+    border-radius: 20px 20px 0 0;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px dashed #e8e0d5;
+  }
+
+  .avatar {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 22px; font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .meta { flex: 1; }
+  .meta .name { font-weight: 700; font-size: 16px; color: #2d3436; }
+  .meta .date { font-size: 13px; color: #b2bec3; margin-top: 2px; }
+
+  .title-section { margin-bottom: 24px; }
+  .title-section h1 {
+    font-family: 'ZCOOL KuaiLe', 'Ma Shan Zheng', cursive;
+    font-size: 26px;
+    color: #2d3436;
+    line-height: 1.4;
+    font-weight: 400;
+  }
+  .title-section .podcast-tag {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 4px 14px;
+    background: #ffe0e0;
+    color: #e17055;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .section { margin-top: 28px; }
+  .section h2 {
+    font-family: 'ZCOOL KuaiLe', cursive;
+    font-size: 20px;
+    font-weight: 400;
+    color: #e17055;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section h2 .icon { font-size: 22px; }
+
+  .summary-text {
+    font-size: 16px;
+    line-height: 1.9;
+    color: #444;
+    background: #fdf6f0;
+    padding: 20px 22px;
+    border-radius: 14px;
+    border-left: 3px solid #e17055;
+  }
+
+  .outline-item {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px dotted #eee;
+    font-size: 15px;
+    color: #555;
+  }
+  .outline-item:last-child { border-bottom: none; }
+
+  .time-badge {
+    flex-shrink: 0;
+    padding: 2px 8px;
+    background: #ffe0e0;
+    color: #e17055;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: monospace;
+  }
+
+  .conclusion-item {
+    padding: 10px 0;
+    padding-left: 24px;
+    border-bottom: 1px dotted #eee;
+    font-size: 15px;
+    color: #555;
+    position: relative;
+  }
+  .conclusion-item::before {
+    content: '▸';
+    position: absolute;
+    left: 4px;
+    color: #e17055;
+    font-size: 13px;
+  }
+  .conclusion-item:last-child { border-bottom: none; }
+
+  .link-tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .link-tag {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .link-tag.book { background: #dbeafe; color: #1d4ed8; }
+  .link-tag.person { background: #fce7f3; color: #be185d; }
+  .link-tag.organization { background: #d1fae5; color: #059669; }
+  .link-tag.software { background: #fef3c7; color: #d97706; }
+
+  .transcript-section {
+    cursor: pointer;
+  }
+  .transcript-body {
+    max-height: 500px;
+    overflow-y: auto;
+    background: #fafaf7;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 14px;
+    line-height: 1.9;
+  }
+  .transcript-line {
+    display: flex; gap: 10px;
+    padding: 5px 0;
+    border-bottom: 1px solid #f0f0f0;
+    color: #666;
+  }
+  .transcript-line .ts {
+    flex-shrink: 0;
+    color: #e17055;
+    font-size: 12px;
+    font-family: monospace;
+    padding-top: 2px;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 32px 16px;
+    color: #b2bec3;
+    font-size: 14px;
+  }
+  .footer .stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: 12px;
+  }
+  .footer .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+  .footer .stat-num { font-size: 22px; font-weight: 700; color: #636e72; }
+  .footer .stat-label { font-size: 12px; color: #b2bec3; }
+
+  @media (max-width: 500px) {
+    .note-card { padding: 20px 16px; }
+    .title-section h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="note-container">
+
+  <!-- 封面卡片 -->
+  <div class="note-card">
+    <div class="card-header">
+      <div class="avatar">🎙</div>
+      <div class="meta">
+        <div class="name">小宇宙总结助手</div>
+        <div class="date">2026年5月13日</div>
+      </div>
+    </div>
+    <div class="title-section">
+      <h1>📻 140. 对姚顺宇的4小时访谈：请允许我小疯一下！在Anthropic和Gemini训模型、技术预测、英雄主义已过去 - 张小珺Jùn｜商业访谈录 | 小宇宙 - 听播客，上小宇宙</h1>
+      <span class="podcast-tag">🎧 播客笔记</span>
+      <span class="podcast-tag" style="margin-left:6px;background:#e8f5e9;color:#27ae60;">⏱ 229分55秒</span>
+      <span class="podcast-tag" style="margin-left:6px;background:#e3f2fd;color:#1565c0;">local-whisper</span>
+    </div>
+  </div>
+
+  <!-- 核心摘要 -->
+  <div class="note-card">
+    <div class="section">
+      <h2><span class="icon">📝</span> 核心摘要</h2>
+      <div class="summary-text">姚顺宇在访谈中讨论了AI研究中的个人英雄主义与集体责任、组织架构对创新的影响、GPU与TPU的设计差异、中美AI市场的不同趋势、New Lab的生存前景、AI研究员的招聘标准、物理学家与AI科学家的崇拜差异、以及他对行业前辈的直言不讳。他强调靠谱和对整体负责的重要性，认为语言模型的最佳时机已过，但AI在其他领域仍有巨大机会。</div>
+    </div>
+  </div>
+
+  
+  <!-- 大纲 -->
+  <div class="note-card">
+    <div class="section">
+      <h2><span class="icon">📋</span> 内容大纲</h2>
+      
+    <div class="outline-item">
+      <span class="time-badge">00:00</span>
+      <span>个人英雄主义与集体责任</span>
+    </div>
+  
+    <div class="outline-item">
+      <span class="time-badge">00:00</span>
+      <span>组织架构与创新：自上而下与自下而上</span>
+    </div>
+  
+    <div class="outline-item">
+      <span class="time-badge">00:00</span>
+      <span>GPU与TPU的设计理念差异</span>
+    </div>
+  
+    <div class="outline-item">
+      <span class="time-badge">00:00</span>
+      <span>New Lab趋势与生存前景</span>
+    </div>
+  
+    <div class="outline-item">
+      <span class="time-badge">00:00</span>
+      <span>中美AI市场差异化：C端 vs 企业端</span>
+    </div>
+  
+    <div class="outline-item">
+      <span class="time-badge">00:00</span>
+      <span>AI研究员招聘标准：靠谱与AI协作能力</span>
+    </div>
+  
+    <div class="outline-item">
+      <span class="time-badge">00:00</span>
+      <span>语言模型的最佳时机已过，其他AI方向仍有机会</span>
+    </div>
+  
+    <div class="outline-item">
+      <span class="time-badge">00:00</span>
+      <span>物理学家与AI科学家的崇拜差异</span>
+    </div>
+  
+    <div class="outline-item">
+      <span class="time-badge">00:00</span>
+      <span>直言不讳的价值与对老登的态度</span>
+    </div>
+  
+    <div class="outline-item">
+      <span class="time-badge">00:00</span>
+      <span>人生之书与推荐作品</span>
+    </div>
+  
+    </div>
+  </div>
+  
+
+  
+  <!-- 关键结论 -->
+  <div class="note-card">
+    <div class="section">
+      <h2><span class="icon">💡</span> 关键金句</h2>
+      
+    <div class="conclusion-item">AI研究需要集体责任，个人英雄主义可能破坏整体性。</div>
+  
+    <div class="conclusion-item">组织创新需要技术力点，既能救火又能理解他人。</div>
+  
+    <div class="conclusion-item">GPU与TPU设计理念不同，但大规模商用差异不大。</div>
+  
+    <div class="conclusion-item">大多数New Lab会死，只有少数有明确方向。</div>
+  
+    <div class="conclusion-item">中美AI市场分化：美国重企业效率软件，中国强C端复杂产品。</div>
+  
+    <div class="conclusion-item">AI研究员招聘关键：靠谱、能有效利用AI并理解其输出。</div>
+  
+    <div class="conclusion-item">纯语言模型最佳时机已过，多模态、机器人、科学问题等方向仍有机会。</div>
+  
+    <div class="conclusion-item">物理学家有英雄，AI科学家时代已过，更看重集体。</div>
+  
+    <div class="conclusion-item">直言不讳短期树敌，但长期受尊重。</div>
+  
+    <div class="conclusion-item">推荐书籍：《唐川修书的自传》和小说《来自新世界》。</div>
+  
+    </div>
+  </div>
+  
+
+  
+  <!-- 延伸阅读 -->
+  <div class="note-card">
+    <div class="section">
+      <h2><span class="icon">📚</span> 延伸阅读</h2>
+      <div class="link-tags">
+    <span class="link-tag book">唐川修书的自传</span>
+  
+    <span class="link-tag book">来自新世界</span>
+  
+    <span class="link-tag paper">Scaling Laws论文</span>
+  
+    <span class="link-tag paper">Attention is All You Need</span>
+  
+    <span class="link-tag organization">语言即世界工作室</span>
+  </div>
+    </div>
+  </div>
+  
+
+  <!-- 转录原文 -->
+  <div class="note-card">
+    <div class="section">
+      <h2 style="cursor:pointer;" onclick="var el=document.getElementById('tsBody');var s=el.style.display==='none'?'block':'none';el.style.display=s;">
+        <span class="icon">🎤</span> 转录原文
+        <span style="font-size:14px;font-weight:400;color:#b2bec3;margin-left:8px;">(点击展开)</span>
+      </h2>
+      <div class="transcript-body" id="tsBody" style="display:none;">
+        
+    <div class="transcript-line">
+      <span class="ts">223:03</span>
+      <span>就大多数老灯其实都还好</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:04</span>
+      <span>就是我觉得</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:05</span>
+      <span>我觉得人年纪大了毕丁会变成老灯的</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:08</span>
+      <span>人年纪大了会变成两种状态</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:10</span>
+      <span>一种状态叫做得高旺重</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:13</span>
+      <span>就是他会可能</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:15</span>
+      <span>少之手话叫还会划自己的利息</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:17</span>
+      <span>去培养年轻人</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:19</span>
+      <span>另说人就是老灯</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:20</span>
+      <span>就是自己也不懂</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:21</span>
+      <span>还只说话叫</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:23</span>
+      <span>所以人老了不一定会变成老灯</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:25</span>
+      <span>你是受到谁的自己</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:27</span>
+      <span>我也不知道我受到自己</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:28</span>
+      <span>但我确实见过不少老灯</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:30</span>
+      <span>你从什么时候变化的</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:32</span>
+      <span>就是说话非常直接开始</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:34</span>
+      <span>不收脸了</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:35</span>
+      <span>就是你过去都是这么小的</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:37</span>
+      <span>但是你不输</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:38</span>
+      <span>我觉得我过去可能</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:40</span>
+      <span>也会比较直接</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:42</span>
+      <span>但是没有这么直接</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:43</span>
+      <span>但是做了AI之后就更直接</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:46</span>
+      <span>没有束缚</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:48</span>
+      <span>一什么又束缚</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:48</span>
+      <span>而这个领域足够客管</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:51</span>
+      <span>就是</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:52</span>
+      <span>你其实不用太担心</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:54</span>
+      <span>因为自己的观点</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:55</span>
+      <span>是吧</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:55</span>
+      <span>只要你的观点就是自恰了</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:57</span>
+      <span>就是你有一套自己观点的理论</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">223:59</span>
+      <span>你不知道随便喷人</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:00</span>
+      <span>那肯定是会人道言</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:02</span>
+      <span>但是你是有一套自己的</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:04</span>
+      <span>自己的理解</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:05</span>
+      <span>我觉得其实</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:06</span>
+      <span>大家是会尊重的</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:08</span>
+      <span>因为最终</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:09</span>
+      <span>你在这个领域做得怎么样</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:10</span>
+      <span>是有客管的评价表致的</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:13</span>
+      <span>我们每个嘉宾都会推荐一本人生之书</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:17</span>
+      <span>要这本书真的对你产生过重要的影响</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:20</span>
+      <span>你要说的这本书是什么</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:22</span>
+      <span>对 今天最难的一个问题</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:27</span>
+      <span>我感觉你还是高看了我的文化程度</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:33</span>
+      <span>我真的没有什么人生之书</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:35</span>
+      <span>说实话</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:36</span>
+      <span>真的没有什么人生</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:36</span>
+      <span>好 最近读了一本书</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:39</span>
+      <span>最近</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:39</span>
+      <span>上次那个</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:40</span>
+      <span>起超说的是</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:42</span>
+      <span>现条小狗</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:44</span>
+      <span>最近读的书就是</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:46</span>
+      <span>就是唐川的自转</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:47</span>
+      <span>唐川修书的自转</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:49</span>
+      <span>女人</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:51</span>
+      <span>然后</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:52</span>
+      <span>你要非要说就是</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:53</span>
+      <span>可能有印象的</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:55</span>
+      <span>首先我这人确实不爱读书</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">224:57</span>
+      <span>我感觉就是我这人为了化水性比较低</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:02</span>
+      <span>然后我读书</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:03</span>
+      <span>除了就是专业性的书之外</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:05</span>
+      <span>所有的书感觉都是显书</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:08</span>
+      <span>像什么唐川的自转</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:10</span>
+      <span>其实本身也是本显书</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:12</span>
+      <span>但是就是</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:12</span>
+      <span>我觉得醒得挺有趣的</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:13</span>
+      <span>就是</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:15</span>
+      <span>你能看到一个</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:16</span>
+      <span>一个后来看起来</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:18</span>
+      <span>如此成功的科学家</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:19</span>
+      <span>在他年轻的时候</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:20</span>
+      <span>有一种征大感</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:21</span>
+      <span>很真实</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:23</span>
+      <span>对</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:24</span>
+      <span>然后</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:26</span>
+      <span>可能就是还有些什么显书</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:27</span>
+      <span>像小说这</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:29</span>
+      <span>有本小说我很喜欢</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:30</span>
+      <span>他的那个</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:31</span>
+      <span>来自新世界</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:32</span>
+      <span>是一个日本的小书</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:34</span>
+      <span>对</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:34</span>
+      <span>我觉得</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:35</span>
+      <span>你要非让我推荐显书的话</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:37</span>
+      <span>我可以推荐那个</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:39</span>
+      <span>你最近有看什么电影</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:41</span>
+      <span>什么</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:43</span>
+      <span>严实剧</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:44</span>
+      <span>我而什么游戏</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:47</span>
+      <span>什么都没有</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:50</span>
+      <span>一个全球范围那你喜欢的书</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:52</span>
+      <span>说死吧</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:53</span>
+      <span>一个全球范围那你喜欢的地点</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">225:58</span>
+      <span>全球范围那喜欢的地点</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:02</span>
+      <span>我觉得现在你要非让我选</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:04</span>
+      <span>我可能会选下唯一</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:06</span>
+      <span>因为我很喜欢海</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:08</span>
+      <span>对</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:09</span>
+      <span>但是也很难说</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:10</span>
+      <span>因为之后</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:10</span>
+      <span>我可能去了更多海的地方</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:12</span>
+      <span>就另有新欢了</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:14</span>
+      <span>一个傻有人知道</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:15</span>
+      <span>但是可能需要知道的支持点</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:20</span>
+      <span>别相信老登算吗</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:23</span>
+      <span>你有迷信过吗</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:28</span>
+      <span>我本身上没有迷信过</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:30</span>
+      <span>但是我觉得有些时候</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:31</span>
+      <span>可以靠迷信来安慰自己</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:33</span>
+      <span>我说你有迷信过老登吗</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:35</span>
+      <span>迷信老登啊</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:37</span>
+      <span>从来没有吗</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:38</span>
+      <span>跟着没有</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:42</span>
+      <span>好</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:43</span>
+      <span>但是我以前可能没有这么恨老登</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:44</span>
+      <span>后来就变得越来越恨老登</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:46</span>
+      <span>为什么</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:47</span>
+      <span>可能就是</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:51</span>
+      <span>当你自己有越来越多判断那时候</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:54</span>
+      <span>那些蠢的人就显得更蠢</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:57</span>
+      <span>他们也没有伤害你</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:58</span>
+      <span>为什么会恨他呢</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">226:59</span>
+      <span>我觉得就是艳蠢症</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:00</span>
+      <span>每个人都有艳蠢症</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:01</span>
+      <span>你在NB天上是什么</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:02</span>
+      <span>不知道</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:04</span>
+      <span>为什么这些年会有一个对于</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:07</span>
+      <span>就是年轻人对于</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:10</span>
+      <span>年龄大的人</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:11</span>
+      <span>这么多友好的一个词出现了</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:13</span>
+      <span>他来远在哪里</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:15</span>
+      <span>不是啊</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:16</span>
+      <span>没有</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:17</span>
+      <span>没有</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:18</span>
+      <span>没有研究过可以问问张文莱</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:19</span>
+      <span>让他第四</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:20</span>
+      <span>语测试一下</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:21</span>
+      <span>看看老登那个才能来的</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:23</span>
+      <span>那你心目中影响</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:24</span>
+      <span>AI进传的期盘路吗</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:25</span>
+      <span>Seconds to Seconds是一片</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:28</span>
+      <span>然后</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:29</span>
+      <span>那个我觉得是</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:30</span>
+      <span>蓝贵什么时候</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:31</span>
+      <span>在非常愿意</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:32</span>
+      <span>nyaoring时代的</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:34</span>
+      <span>高峰</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:35</span>
+      <span>嗯</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:36</span>
+      <span>然后</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:38</span>
+      <span>scaling老師一片</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:40</span>
+      <span>就是主要是咖啡人家</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:41</span>
+      <span>他们在Open Ed的那片</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:43</span>
+      <span>scaling老師一片</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:44</span>
+      <span>是一片</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:45</span>
+      <span>把这种</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:46</span>
+      <span>企鸡化的研究方式</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:48</span>
+      <span>引进到这个领域的</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:50</span>
+      <span>一片</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:51</span>
+      <span>当然最后</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:52</span>
+      <span>使这样子跟鲁的做的方法可能谈那样并不是正确了</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">227:58</span>
+      <span>但是是第一天把想法引进来的我觉得很关键</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:02</span>
+      <span>基于你当下的认知一个关键的重要的伴侍是什么</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:06</span>
+      <span>辣何儿儿孩子 辣何儿孩子</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:09</span>
+      <span>我们工作室教语言及世界工作室</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:12</span>
+      <span>第一次听到这个名字的时候你在想什么</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:14</span>
+      <span>我觉得这个名字有點正常的太平庸了</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:20</span>
+      <span>可以</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:24</span>
+      <span>其实其实我觉得我觉得这个名字是一个</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:29</span>
+      <span>可能放到十年以前是一个很</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:32</span>
+      <span>很独特的视角</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:33</span>
+      <span>现在主要大家共识太多了</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:36</span>
+      <span>十年以前确实就是</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:38</span>
+      <span>可能现在不只是一年对不起我感觉我年纪也大了可能不只是一年了就是</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:42</span>
+      <span>可能在</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:43</span>
+      <span>就是什么</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:44</span>
+      <span>1415那个年代</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:46</span>
+      <span>大家都会觉得</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:47</span>
+      <span>视觉是最重要的事</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:49</span>
+      <span>在那个时候我觉得意识到</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:51</span>
+      <span>语言是</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:52</span>
+      <span>成在智能的</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:53</span>
+      <span>重要仔细的人</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:54</span>
+      <span>可能是一个不一样的</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:56</span>
+      <span>事情</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">228:57</span>
+      <span>不过我觉得我们这个名字不是在AIA的语境里面讲</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">229:07</span>
+      <span>那就值得深思了</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">229:34</span>
+      <span>好了今天的节目就是这样</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">229:36</span>
+      <span>这里是商业访谈路是一档有语言及世界工作室出品的深度访谈节目</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">229:42</span>
+      <span>你可以到公众号关注我们的工作室或取更多的信息</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">229:46</span>
+      <span>我们的公众号是</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">229:47</span>
+      <span>语言及世界</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">229:49</span>
+      <span>Language is world</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">229:51</span>
+      <span>我们希望和你一起</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">229:52</span>
+      <span>从这里探索</span>
+    </div>
+  
+    <div class="transcript-line">
+      <span class="ts">229:54</span>
+      <span>新的世界</span>
+    </div>
+  
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="stats">
+      <div class="stat-item">
+        <span class="stat-num">10</span>
+        <span class="stat-label">话题节点</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">10</span>
+        <span class="stat-label">关键金句</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">200</span>
+        <span class="stat-label">转录段落</span>
+      </div>
+    </div>
+    <div>由 小宇宙总结助手 自动生成 · 2026年5月13日</div>
+  </div>
+
+</div>
+</body>
+</html>

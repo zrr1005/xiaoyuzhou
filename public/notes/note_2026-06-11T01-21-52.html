@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>71.与小米陈龙的访谈：90后AI当家、车与机器人的智能，重建一个Physical AI的世界观 - 卫诗婕｜漫谈Light the Star | 小宇宙 - 听播客，上小宇宙 - 小宇宙笔记</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css" />
+<link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true, theme:'base', securityLevel:'loose'});</script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #f5f0e8;
+    background-image:
+      repeating-linear-gradient(#e8e0d0 0px, #e8e0d0 1px, transparent 1px, transparent 32px),
+      repeating-linear-gradient(90deg, #e8e0d0 0px, #e8e0d0 1px, transparent 1px, transparent 100%);
+    font-family: 'LXGW WenKai', 'Long Cang', cursive, sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    line-height: 1.8;
+  }
+  .notebook {
+    max-width: 750px;
+    width: 100%;
+    background: #fffef9;
+    padding: 50px 40px;
+    box-shadow: 2px 3px 12px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04);
+    border-radius: 4px;
+    border-left: 3px solid #f0c0c0;
+    position: relative;
+  }
+  h1 {
+    font-family: 'ZCOOL KuaiLe', 'Ma Shan Zheng', cursive;
+    font-size: 2em;
+    color: #2c2c2c;
+    margin-bottom: 8px;
+    line-height: 1.5;
+    background: linear-gradient(transparent 60%, #ffe066 60%);
+    display: inline;
+    padding: 0 6px;
+  }
+  h2 {
+    font-family: 'ZCOOL KuaiLe', cursive;
+    font-size: 1.3em;
+    margin: 28px 0 12px;
+    color: #555;
+    border-bottom: 2px dashed #e8e0d0;
+    padding-bottom: 6px;
+  }
+  .meta-line {
+    font-size: 0.9em;
+    color: #aaa;
+    margin: 8px 0 20px;
+  }
+  .highlight {
+    background: linear-gradient(120deg, #fff9c4 0%, #fff176 100%);
+    border-left: 4px solid #f9a825;
+    padding: 14px 18px;
+    margin: 20px 0;
+    border-radius: 0 8px 8px 0;
+    font-size: 1.05em;
+    position: relative;
+    line-height: 1.9;
+  }
+  .highlight::before { content: '📌'; position: absolute; top: -10px; left: 8px; font-size: 1.2em; }
+  ul { list-style: none; padding-left: 0; }
+  ul li { padding: 6px 0 6px 28px; position: relative; }
+  ul li::before { content: '✦'; position: absolute; left: 4px; color: #f0a0a0; }
+  mark {
+    background: linear-gradient(transparent 55%, #ffe066 55%);
+    padding: 0 2px;
+  }
+  .pink-mark {
+    background: linear-gradient(transparent 55%, #ffcdd2 55%);
+    padding: 0 2px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.95em;
+  }
+  th {
+    background: #f5f0e8;
+    border-bottom: 2px solid #d0c8b8;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: bold;
+  }
+  td { border-bottom: 1px dashed #d8d0c0; padding: 10px 12px; }
+  .tags {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px dashed #e0d8c8;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .tag {
+    background: #f5f0e8;
+    color: #8d6e63;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    border: 1px solid #e0d8c8;
+  }
+  .qa-card {
+    background: #fafaf5;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    border: 1px solid #e8e0d0;
+  }
+  .qa-card .q {
+    font-weight: 700;
+    color: #e17055;
+    margin-bottom: 6px;
+  }
+  .qa-card .a { color: #555; line-height: 1.9; }
+  .mental-card {
+    padding: 12px 0;
+    border-bottom: 1px dotted #e0d8c8;
+  }
+  .mental-card:last-child { border-bottom: none; }
+  .mental-card .name { font-weight: 700; font-size: 1.05em; }
+  .mental-card .insight { color: #777; font-size: 0.95em; margin-top: 4px; }
+  .action-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px dotted #e0d8c8;
+  }
+  .action-row:last-child { border-bottom: none; }
+  .action-badge {
+    flex-shrink: 0;
+    padding: 3px 10px;
+    border-radius: 14px;
+    font-size: 0.8em;
+    font-weight: 600;
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+  .action-reason { color: #888; font-size: 0.9em; }
+  .outline-block {
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px dotted #e8e0d0;
+  }
+  .outline-block:last-child { border-bottom: none; }
+  .outline-time {
+    font-size: 0.8em;
+    color: #e17055;
+    font-weight: 600;
+    display: inline-block;
+    background: #fff0ed;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 8px;
+  }
+  .outline-title { font-weight: 600; font-size: 1.05em; }
+  .outline-points { margin-top: 4px; padding-left: 24px; }
+  .outline-points li { font-size: 0.9em; color: #777; }
+  .outline-points li::before { content: '▸'; color: #d0c0b0; }
+  .transcript-section {
+    margin-top: 24px;
+    border-top: 2px dashed #e0d8c8;
+    padding-top: 20px;
+  }
+  .transcript-toggle {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.1em;
+    color: #888;
+  }
+  .transcript-body {
+    display: none;
+    margin-top: 12px;
+    max-height: 500px;
+    overflow-y: auto;
+    font-size: 0.9em;
+    color: #999;
+    line-height: 2;
+  }
+  .transcript-body .ts {
+    color: #e17055;
+    font-size: 0.8em;
+    margin-right: 8px;
+  }
+
+  /* 保存指示器 */
+  .save-indicator {
+    position: fixed;
+    top: 16px;
+    right: 20px;
+    background: #e8f5e9;
+    color: #388e3c;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 0.8em;
+    border: 1px solid #a5d6a7;
+    z-index: 1000;
+    transition: all 0.3s;
+  }
+  .save-indicator.saving { background: #fff3e0; color: #f57c00; border-color: #ffcc80; }
+  .save-indicator.saved { background: #e8f5e9; color: #388e3c; border-color: #a5d6a7; }
+
+  /* 悬浮工具栏 */
+  .toolbar {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    background: #fff;
+    padding: 10px 16px;
+    border-radius: 28px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    z-index: 999;
+  }
+  .toolbar button {
+    width: 36px; height: 36px;
+    border: 1px solid #e0d8c8;
+    background: #fffef9;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .toolbar button:hover { background: #f5f0e8; border-color: #c0b8a8; }
+  .toolbar button:active { transform: scale(0.92); }
+  .toolbar.hidden { opacity: 0.15; }
+
+  @media (max-width: 600px) {
+    .notebook { padding: 30px 18px; }
+    h1 { font-size: 1.5em; }
+    table { font-size: 0.8em; }
+    th, td { padding: 6px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="notebook" contenteditable="true">
+
+  <!-- 标题 -->
+  <h1>📻 71.与小米陈龙的访谈：90后AI当家、车与机器人的智能，重建一个Physical AI的世界观 - 卫诗婕｜漫谈Light the Star | 小宇宙 - 听播客，上小宇宙</h1>
+  <div class="meta-line">🎧 播客笔记 · 2026年6月11日 · ⏱ 85分23秒</div>
+
+  <!-- 价值主张 -->
+  
+  <div class="highlight">💡 这期节目带你深入理解Physical AI（物理世界人工智能）的前沿进展，揭示小米如何将自动驾驶、机器人与大模型融合，并探讨AI从数字世界迈向物理世界的核心挑战与未来路径。</div>
+  
+
+  <!-- 关键词 -->
+  
+  <div class="tags" style="border-top:none;margin-top:0;padding-top:0;">
+    <span class="tag">#Physical AI</span><span class="tag">#VLA</span><span class="tag">#世界模型</span><span class="tag">#自动驾驶</span><span class="tag">#具身智能</span><span class="tag">#强化学习</span>
+  </div>
+  
+
+  <!-- 核心摘要 -->
+  
+  <h2>📝 核心摘要</h2>
+  <p style="font-size:1.05em;line-height:2;">本期播客中，小米自动驾驶负责人陈龙详细解读了Physical AI（物理世界人工智能）的技术演进与行业洞察。核心观点包括：1）小米发布的XLA认知大模型，通过“潜空间推理”将语言与视觉模态融合，实现了更安全、更类人的驾驶行为，如语言控车和商场车位级导航；2）具身智能（如车和机器人）面临的核心挑战是“持续学习能力”，当前监督学习范式无法处理真实世界中的错误状态和分布外场景，需要像人类一样在物理环境中试错迭代；3）VLA（视觉-语言-行动）架构是当前实现物理智能的有效框架，而世界模型（World Model）通过预测下一帧来隐式学习物理规律，两者融合是终极方向；4）数据规模在物理世界中的Scaling Law难以直接复现，因为真实环境中的“脏数据”和系统工程的复杂性远超虚拟训练；5）中国在具身智能领域拥有数据、产业链和创新速度的独特优势，华人团队在多模态和物理AI领域正扮演领先角色。陈龙还分享了小米“真诚热爱”的文化、共识的重要性以及90后Leader如何推动创新。</p>
+  
+
+  <!-- 二级大纲 -->
+  
+  <h2>📋 内容大纲</h2>
+  
+    <div class="outline-block">
+      <div><span class="outline-time">00:00</span> <span class="outline-title">XLA认知大模型：从VLA到更智能的驾驶Agent</span></div>
+      <ul class="outline-points"><li>XLA通过潜空间推理实现复杂场景下的快速决策，如应对大型障碍物，减少人类接管。</li><li>引入语言控车功能，用户可直接通过语音指令控制车辆加速、转向、变道。</li><li>创新功能：商场车位级导航，根据用户想去店铺自动导航至最近可用车位。</li></ul>
+    </div>
+  
+    <div class="outline-block">
+      <div><span class="outline-time">08:00</span> <span class="outline-title">跨域混合训练：车与机器人数据的融合策略</span></div>
+      <ul class="outline-points"><li>采用混合训练策略，将车、机器人及通用视觉数据一起训练，保留大模型通用能力的同时提升垂直领域表现。</li><li>创新点：使用COT（思维链）数据标注，并加入强化学习后训练，激发模型推理能力。</li><li>AI学习方式正从监督学习向更类人的持续学习演进，后者对具身智能至关重要。</li></ul>
+    </div>
+  
+    <div class="outline-block">
+      <div><span class="outline-time">15:00</span> <span class="outline-title">具身智能的核心挑战：持续学习与Scaling Law的局限性</span></div>
+      <ul class="outline-points"><li>当前监督学习范式限制：依赖离线完美数据，无法从错误状态恢复，缺乏持续学习能力。</li><li>物理世界中的Scaling Law难以直接复现，因为真实环境存在硬件差异和系统工程复杂性。</li><li>未来需要像人类一样在真实世界中反复练习、纠错，可能需要Self-Learning等新范式。</li></ul>
+    </div>
+  
+    <div class="outline-block">
+      <div><span class="outline-time">25:00</span> <span class="outline-title">世界模型与VLA的融合：Physical AI的未来路线</span></div>
+      <ul class="outline-points"><li>世界模型通过预测下一帧来隐式学习物理规律（如物体位置、深度、速度），无需显式标注。</li><li>VLA是框架，世界模型可作为推理方式融入其中，实现底层物理规律与人类语言智慧的协同。</li><li>行业探索方向：视觉表征学习、语言推理、行动输出（离散Token或Flow Matching）等。</li></ul>
+    </div>
+  
+    <div class="outline-block">
+      <div><span class="outline-time">35:00</span> <span class="outline-title">中国优势与人才竞争：从自动驾驶到具身智能的融合</span></div>
+      <ul class="outline-points"><li>中国在数据（短视频）、产业链和创新速度上具有独特优势，未来更多创新可能在中国产生。</li><li>自动驾驶人才向机器人领域流失，但两者本质相通，小米通过统一范式吸引跨领域人才。</li><li>组织吸引人才的关键：长期投入、有影响力的工作、开放的文化和价值观共鸣。</li></ul>
+    </div>
+  
+    <div class="outline-block">
+      <div><span class="outline-time">45:00</span> <span class="outline-title">小米文化、共识与90后Leader的成长</span></div>
+      <ul class="outline-points"><li>小米文化“真诚热爱”，鼓励挑战规则，但强调“共创共识”——共识虽难但至关重要。</li><li>90后Leader通过充分沟通达成共识，推动车与机器人融合等创新项目落地。</li><li>陈龙最期待：高阶自动驾驶落地、机器人生活应用，以及汽车真正成为伙伴（如《霹雳游侠》）。</li></ul>
+    </div>
+  
+  
+
+  <!-- Q&A -->
+  
+  <h2>💬 深度 Q&A</h2>
+  
+    <div class="qa-card">
+      <div class="q">Q: 为什么自动驾驶和机器人的Scaling Law（规模定律）在真实世界中难以直接复现？</div>
+      <div class="a">A: 陈龙指出，虽然训练时增加数据可以降低Loss，符合Scaling Law，但部署到真实世界后性能并不完全匹配。根本原因在于具身智能是系统工程，涉及硬件差异和不可预测的环境变化。模型需要从错误状态中恢复的能力，而这在离线完美数据中无法学到。因此，物理世界需要“脏数据”和在线持续学习，而非单纯堆数据。</div>
+    </div>
+  
+    <div class="qa-card">
+      <div class="q">Q: VLA（视觉-语言-行动）架构和世界模型（World Model）之间是什么关系？未来如何融合？</div>
+      <div class="a">A: 陈龙认为，VLA是一个整体框架，负责认知、推理和决策；而世界模型可以作为一种推理方式融入VLA。世界模型通过预测下一帧来隐式学习物理规律（如物体运动、深度），而VLA中的语言模态则承载人类定义的规则和智慧。最终方向是将两者统一，既利用世界模型理解底层物理，又利用语言进行高级推理。</div>
+    </div>
+  
+    <div class="qa-card">
+      <div class="q">Q: 小米如何吸引和留住顶尖人才，尤其是在自动驾驶人才向机器人领域流失的背景下？</div>
+      <div class="a">A: 小米的策略有三：一是展示长期且大力度的投入，让候选人看到方向的前景；二是产出有影响力的工作（如技术报告、论文），证明团队实力；三是文化价值观的共鸣，如“真诚热爱”和“共创共识”。此外，小米将自动驾驶、机器人和大模型三个方向统一，吸引对跨领域感兴趣的高潜人才。</div>
+    </div>
+  
+  
+
+  <!-- 思维模型 -->
+  
+  <h2>🧠 思维模型</h2>
+  
+    <div class="mental-card">
+      <div class="name">持续学习思维（Continuous Learning Mindset）</div>
+      <div class="insight">陈龙强调，具身智能不能依赖一次性训练，而需要在真实世界中不断试错、纠错和迭代。这种思维揭示了物理AI与数字AI的本质区别：物理世界充满不确定性，系统必须拥有从错误中恢复并自我进化的能力，而非仅仅追求完美数据下的最优解。</div>
+    </div>
+  
+    <div class="mental-card">
+      <div class="name">系统工程思维（System Engineering Mindset）</div>
+      <div class="insight">陈龙指出，具身智能不仅是软件问题，更是软硬件融合的系统工程。Scaling Law在物理世界失效，正是因为硬件差异、环境变化等系统级因素无法被纯数据训练覆盖。这提醒我们，任何物理世界中的AI应用，都必须将系统整体（硬件、软件、环境）纳入考量，而非孤立优化模型。</div>
+    </div>
+  
+    <div class="mental-card">
+      <div class="name">共识驱动创新（Consensus-Driven Innovation）</div>
+      <div class="insight">陈龙分享小米“共创共识”的价值观，强调在创新项目启动前达成团队共识的重要性。这揭示了一个底层逻辑：在不确定性高的前沿领域，共识不仅是执行力的保障，更是克服困难、持续投入的心理基础。没有共识的创新容易在遇到阻力时被放弃。</div>
+    </div>
+  
+  
+
+  <!-- 关键金句 -->
+  
+  <h2>💡 关键金句</h2>
+  <ul>
+    <li><mark>“我觉得最终的话，人工智能肯定是需要一个持续学习的能力的，特别是在具身这个领域。”</mark></li><li><mark>“我们比较创新地方，是我们使用了COT（思维链）……最终我们还是加入了强化学习后训练，让它更加的一些国道相，去激发出它COT的能力。”</mark></li><li><mark>“物理AI更难的地方，就是首先数据非常少，第二点就是它不会从这个真实世界当中去试错去学习。”</mark></li><li><mark>“我觉得现在比较好的路线可能就是，把世界模型跟VLA这两种框架统一起来，既用到World Model这个底层物理规律的表征，也能使用到人类语言这个智慧的结晶，来进行一些推理。”</mark></li><li><mark>“共识虽然很难，但是我是非常重要的。”</mark></li><li><mark>“如果我相信一个什么事情的话，我觉得我是可以去影响雷总做一些决策的，会尽力地去影响。”</mark></li>
+  </ul>
+  
+
+  <!-- 行动清单 -->
+  
+  <h2>✅ 行动清单</h2>
+  <table>
+    <tr><th>类型</th><th>推荐</th><th>理由</th></tr>
+    
+    <tr>
+      <td>📖 书</td>
+      <td><strong>《霹雳游侠》（Knight Rider）</strong></td>
+      <td>陈龙提及这部作品描绘了汽车成为人类伙伴的愿景，是理解Physical AI终极目标的流行文化参考。</td>
+    </tr>
+    
+    <tr>
+      <td>💡 方法</td>
+      <td><strong>COT（思维链）数据标注方法</strong></td>
+      <td>陈龙强调COT是激发模型推理能力的关键技术，适用于需要复杂决策的AI训练，如自动驾驶和机器人。</td>
+    </tr>
+    
+    <tr>
+      <td>💡 方法</td>
+      <td><strong>强化学习（Reinforcement Learning）</strong></td>
+      <td>陈龙指出强化学习用于激发模型特性并与人类偏好对齐，是监督学习之外的重要补充，尤其在具身智能领域。</td>
+    </tr>
+    
+  </table>
+  
+
+  <!-- 转录原文(折叠) -->
+  
+  <div class="transcript-section">
+    <div class="transcript-toggle" onclick="var b=document.getElementById('tsBody');var s=b.style.display==='none'?'block':'none';b.style.display=s;this.querySelector('.arrow').textContent=s==='none'?'▶':'▼';">
+      <span class="arrow">▶</span> 转录原文 (200 段)
+    </div>
+    <div class="transcript-body" id="tsBody">
+      <span class="ts">79:28</span>你的成就感会更加高<br><span class="ts">79:29</span>机器人的话<br><span class="ts">79:30</span>你可以让它去做一些任务<br><span class="ts">79:32</span>可能带给你感官上面刺激会更少一些<br><span class="ts">79:34</span>就是你可以让它给你按摩<br><span class="ts">79:38</span>对对对<br><span class="ts">79:38</span>是的<br><span class="ts">79:39</span>当然现在也有很多人就是想要<br><span class="ts">79:42</span>找一些统一的一些犯事<br><span class="ts">79:43</span>把这个自家跟居身统一起来<br><span class="ts">79:45</span>你们不就是吗<br><span class="ts">79:46</span>对是的<br><span class="ts">79:48</span>这个会成为你们好招人才的一个武器吗<br><span class="ts">79:51</span>对 当然很多人对这个大模型<br><span class="ts">79:54</span>自动架势 居身智能<br><span class="ts">79:55</span>这三个方向其实都很感兴趣<br><span class="ts">79:57</span>所以我们招待人才的时候<br><span class="ts">80:00</span>其实这三个方向只要你做过两个方向<br><span class="ts">80:02</span>其实我觉得都是很适合的<br><span class="ts">80:04</span>所以你们招人的时候会有什么样的侵赖吗<br><span class="ts">80:07</span>我们特性的话<br><span class="ts">80:08</span>首先肯定是需要招比较高潜的<br><span class="ts">80:10</span>你们怎么定义高潜<br><span class="ts">80:11</span>只要看之前有没有做过<br><span class="ts">80:13</span>参与过一些比较好的项目<br><span class="ts">80:15</span>或者是有一些比较好的ID<br><span class="ts">80:16</span>包括对新事务的认知怎么样<br><span class="ts">80:19</span>就有没有对新事务探索的这个潜力<br><span class="ts">80:23</span>你加入小米之后<br><span class="ts">80:24</span>说过小米的企业文化很好<br><span class="ts">80:25</span>具体体现在哪里<br><span class="ts">80:26</span>小米家这关是真诚热爱<br><span class="ts">80:28</span>就是我们是真的去热爱这个方向<br><span class="ts">80:31</span>去热爱这个目标<br><span class="ts">80:33</span>今天AI领域对热爱人才的争多比<br><span class="ts">80:35</span>又往任何时候都要激烈<br><span class="ts">80:37</span>你觉得一个组织该释放什么样的信号<br><span class="ts">80:38</span>才能吸引到真正的优秀人才<br><span class="ts">80:40</span>首先你的这个组织有没有<br><span class="ts">80:42</span>在这个方向进行一个大力的投入<br><span class="ts">80:44</span>后选人对这些企业的筛选<br><span class="ts">80:46</span>的一个很大的一个指标<br><span class="ts">80:48</span>就是当你有一个很长期的<br><span class="ts">80:50</span>很重视的一个投入的时候<br><span class="ts">80:52</span>这个方向肯定会越来越火<br><span class="ts">80:53</span>包括你这个团队<br><span class="ts">80:55</span>有没有出一些比较有名的一些工作<br><span class="ts">80:58</span>比如说发一些技术报告<br><span class="ts">81:00</span>或者是有一些影响力的论文<br><span class="ts">81:02</span>这些都是对新人才比较重要的<br><span class="ts">81:04</span>还要就是价值观的一些心<br><span class="ts">81:06</span>我觉得小米在这方面做的还是不错的<br><span class="ts">81:08</span>我问一些大家都会比较感兴趣<br><span class="ts">81:10</span>但是可能会比较尖锐的问题<br><span class="ts">81:11</span>任何真正的创新都可能会面对<br><span class="ts">81:14</span>就规则的阻礼<br><span class="ts">81:15</span>而一家越大的企业<br><span class="ts">81:16</span>就因为他的就规则可能会越多越深<br><span class="ts">81:19</span>你再小米碰到过吗<br><span class="ts">81:21</span>我觉得这种事情在各个公司<br><span class="ts">81:23</span>可能都有<br><span class="ts">81:24</span>海外的公司其实有很多这种事情<br><span class="ts">81:26</span>但我觉得小米还是一个比较年轻的一个企业<br><span class="ts">81:28</span>然后而且小米重伤的文化也比较开放<br><span class="ts">81:31</span>任何人都可以去挑战这些规则<br><span class="ts">81:34</span>现实啊<br><span class="ts">81:35</span>现在越来越多像你这样的90后的<br><span class="ts">81:37</span>Leader<br><span class="ts">81:38</span>他们在承担这样的一个责任班言很重要的角色<br><span class="ts">81:42</span>大家在这个过程当中<br><span class="ts">81:44</span>会怎么样去见性<br><span class="ts">81:45</span>小米有一个价值观时<br><span class="ts">81:47</span>共创共识<br><span class="ts">81:48</span>就是他会听取所有人的意见<br><span class="ts">81:50</span>但共识往往是最难达成的<br><span class="ts">81:52</span>是的<br><span class="ts">81:53</span>是最难达成的<br><span class="ts">81:54</span>但是我觉得也是最需要去达成的<br><span class="ts">81:56</span>因为如果你没有达成一个共识<br><span class="ts">81:57</span>就去做一些事情的话<br><span class="ts">81:58</span>就一下了成员不认可的一个方向<br><span class="ts">82:00</span>大家也没有一个动力<br><span class="ts">82:01</span>遇到一些困难的话<br><span class="ts">82:02</span>我们就会声音地去放弃<br><span class="ts">82:03</span>所以我觉得做了一些事情<br><span class="ts">82:05</span>之前要充分地去共识<br><span class="ts">82:06</span>大家相信这个方向<br><span class="ts">82:07</span>比如说<br><span class="ts">82:08</span>周家石跟居然只能去融合<br><span class="ts">82:09</span>虽然之前没有人做过<br><span class="ts">82:11</span>其实大家都对这个方向<br><span class="ts">82:13</span>特别感兴趣<br><span class="ts">82:14</span>很想去验证的一个方向<br><span class="ts">82:15</span>然后我们大家都有一个共识<br><span class="ts">82:17</span>就觉得这个东西能做成<br><span class="ts">82:19</span>这个信念之后<br><span class="ts">82:20</span>也是克服了很多的主力<br><span class="ts">82:21</span>把这件事情做成了<br><span class="ts">82:22</span>所以这个共识虽然很难<br><span class="ts">82:24</span>但是我是非常重要的<br><span class="ts">82:25</span>加入小米之后<br><span class="ts">82:26</span>印象最深的事情是什么<br><span class="ts">82:28</span>印象最深的就是<br><span class="ts">82:29</span>我们发布这个迷茫音波迪的时候<br><span class="ts">82:32</span>这个模型其实也是我们花了<br><span class="ts">82:34</span>很大的进去<br><span class="ts">82:35</span>训练出来了<br><span class="ts">82:36</span>也是很多团队去协调<br><span class="ts">82:39</span>一起来做的一个工作<br><span class="ts">82:41</span>我们跟萝卜力团队<br><span class="ts">82:42</span>和机器人的硬件团队<br><span class="ts">82:44</span>有很多的这个合作<br><span class="ts">82:45</span>克服了一些困难<br><span class="ts">82:46</span>所有的数据融合来一起<br><span class="ts">82:47</span>然后使用了我们这个强大的地做模型<br><span class="ts">82:49</span>然后也是耗费了很多的资源<br><span class="ts">82:51</span>然后追踪把训练出来<br><span class="ts">82:53</span>然后我们也看到它在<br><span class="ts">82:54</span>这些奔馨马上面<br><span class="ts">82:56</span>打到的效果也非常好<br><span class="ts">82:57</span>然后也特别的开心<br><span class="ts">82:58</span>连终也在咱们违播上面<br><span class="ts">83:00</span>做了一些转发<br><span class="ts">83:01</span>然后觉得这个事情特别的有成就感<br><span class="ts">83:03</span>这下有三件最期待的事是什么<br><span class="ts">83:05</span>首先我希望看到<br><span class="ts">83:06</span>更高階的技能价值的一个落地<br><span class="ts">83:08</span>特别适合我们这个熬丝<br><span class="ts">83:10</span>而RowTyxy的这个服务<br><span class="ts">83:11</span>能够实现真的人的服务家屎<br><span class="ts">83:13</span>第二点就是能看到机器人在<br><span class="ts">83:15</span>生活当中更多的应用<br><span class="ts">83:17</span>其实也就是这个大模型<br><span class="ts">83:18</span>进入到物理事件<br><span class="ts">83:19</span>能够帮我们做更多的事情<br><span class="ts">83:21</span>比如说帮我们做咖啡啊<br><span class="ts">83:23</span>这样我们就不用自己去做咖啡了<br><span class="ts">83:24</span>那你不是少了很多乐趣吗<br><span class="ts">83:26</span>你觉得很爱做咖啡吗<br><span class="ts">83:27</span>对对<br><span class="ts">83:28</span>但我们可以知道这个机器人<br><span class="ts">83:29</span>怎么做更好的咖啡<br><span class="ts">83:30</span>刚才在楼下你带我转援<br><span class="ts">83:32</span>你们原去的时候<br><span class="ts">83:33</span>你讲到你想说<br><span class="ts">83:34</span>看了第一步美致<br><span class="ts">83:35</span>是屁力游侠<br><span class="ts">83:36</span>讲的是一个汽车<br><span class="ts">83:38</span>如何真的成为你的口派了<br><span class="ts">83:40</span>你的伙伴<br><span class="ts">83:41</span>你的助理<br><span class="ts">83:42</span>我们也说到这件事情<br><span class="ts">83:43</span>可能很快就会发生了<br><span class="ts">83:44</span>你觉得屁力游侠<br><span class="ts">83:46</span>当中描述的这种场景<br><span class="ts">83:48</span>来到我们现实生活当中<br><span class="ts">83:50</span>还有多远<br><span class="ts">83:51</span>其实现在已经非常接近了<br><span class="ts">83:53</span>在咱们汽车里面<br><span class="ts">83:54</span>你可以跟小艾同学<br><span class="ts">83:55</span>进行自由的交流<br><span class="ts">83:56</span>我们最新的版本<br><span class="ts">83:57</span>也有这个运控车功能<br><span class="ts">83:58</span>跟这个美区里面描述<br><span class="ts">84:00</span>场景已经非常的接近了<br><span class="ts">84:01</span>其实接下来就看<br><span class="ts">84:03</span>我们能不能把它这个能力做得更好<br><span class="ts">84:05</span>把它扩展到更多的设备上面<br><span class="ts">84:07</span>还是有一个问题想追问一下<br><span class="ts">84:08</span>刚才有你说<br><span class="ts">84:09</span>如果一件事情跟雷总讨论三次<br><span class="ts">84:12</span>他都拒绝了话<br><span class="ts">84:13</span>就不会来有第四次了<br><span class="ts">84:15</span>假如现在你非常非常<br><span class="ts">84:16</span>被利负一个技术方向<br><span class="ts">84:18</span>你已经争取了三次<br><span class="ts">84:19</span>但是雷总仍然没有同意<br><span class="ts">84:21</span>但你真的非常非常相信<br><span class="ts">84:23</span>会有第四次吗<br><span class="ts">84:24</span>对你来说<br><span class="ts">84:25</span>我觉得我肯定还是需要见识的<br><span class="ts">84:27</span>如果我相信一个什么事情的话<br><span class="ts">84:29</span>我觉得我是可以去影响雷总做一些这错的<br><span class="ts">84:32</span>会尽力地去影响<br><span class="ts">84:33</span>但可能不能完全说服雷总<br><span class="ts">84:35</span>但是肯定会去尽力地去综去的<br><span class="ts">84:43</span>好啦 这期节目就到这里<br><span class="ts">84:45</span>这期波克的视频版已经全网上线<br><span class="ts">84:48</span>欢迎前网闭战微博、小红书、视频号<br><span class="ts">84:52</span>腾讯视频、YouTube等平台<br><span class="ts">84:55</span>都能找到我的视频专栏<br><span class="ts">84:57</span>也欢迎关注我们的同名公众号<br><span class="ts">85:00</span>这是一档追求深度、深动与信息指量的科技商业访谈<br><span class="ts">85:05</span>我们争取在每一个技术商业时代的关键变化节点<br><span class="ts">85:10</span>提供负责可靠的一首信息<br><span class="ts">85:12</span>欢迎在评论区留下你的评论<br><span class="ts">85:15</span>你的转发很小<br><span class="ts">85:17</span>对我们来说真的很重要<br><span class="ts">85:19</span>也欢迎听您想听的嘉宾<br><span class="ts">85:21</span>我们下期再见<br>
+    </div>
+  </div>
+  
+
+  <!-- 标签 -->
+  
+  <div class="tags">
+    <span style="color:#aaa;font-size:0.85em;">🏷️</span>
+    <span class="tag">#Physical AI</span><span class="tag">#VLA</span><span class="tag">#世界模型</span><span class="tag">#自动驾驶</span><span class="tag">#具身智能</span><span class="tag">#强化学习</span>
+  </div>
+  
+
+</div>
+
+<!-- 保存指示器 -->
+<div class="save-indicator saved" id="saveIndicator">💾 已保存</div>
+
+<!-- 悬浮工具栏 -->
+<div class="toolbar" id="toolbar">
+  <button onclick="document.execCommand('bold',false,null)" title="加粗">B</button>
+  <button onclick="wrapMark('mark')" title="荧光笔">🖍</button>
+  <button onclick="wrapMark('pink-mark')" title="粉笔">🩷</button>
+  <button onclick="toggleLock()" id="lockBtn" title="锁定/解锁">🔓</button>
+  <button onclick="resetContent()" title="恢复原始">🔄</button>
+  <button onclick="toggleToolbar()" title="隐藏">👁</button>
+</div>
+
+<script>
+  const STORAGE_KEY = 'xhnote-' + location.pathname.replace(/[^a-zA-Z0-9]/g, '-');
+  const notebook = document.querySelector('.notebook');
+  const indicator = document.getElementById('saveIndicator');
+  let saveTimer = null;
+  const originalHTML = notebook.innerHTML;
+
+  (function restore() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) { notebook.innerHTML = saved; }
+  })();
+
+  notebook.addEventListener('input', function() {
+    indicator.textContent = '🕐 编辑中...';
+    indicator.className = 'save-indicator saving';
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function() {
+      localStorage.setItem(STORAGE_KEY, notebook.innerHTML);
+      indicator.textContent = '💾 已保存';
+      indicator.className = 'save-indicator saved';
+    }, 1500);
+  });
+
+  function wrapMark(cls) {
+    const sel = window.getSelection();
+    if (!sel.rangeCount || sel.isCollapsed) return;
+    const range = sel.getRangeAt(0);
+    const span = document.createElement('span');
+    span.className = cls;
+    try { range.surroundContents(span); } catch(e) {
+      const frag = range.extractContents();
+      span.appendChild(frag);
+      range.insertNode(span);
+    }
+    sel.removeAllRanges();
+  }
+
+  function toggleLock() {
+    const btn = document.getElementById('lockBtn');
+    if (notebook.contentEditable === 'true') {
+      notebook.contentEditable = 'false'; btn.textContent = '🔒';
+      indicator.textContent = '🔒 已锁定'; indicator.className = 'save-indicator saved';
+    } else {
+      notebook.contentEditable = 'true'; btn.textContent = '🔓';
+      indicator.textContent = '💾 已保存'; indicator.className = 'save-indicator saved';
+    }
+  }
+
+  function resetContent() {
+    if (confirm('恢复原始内容？所有修改将被丢弃。')) {
+      localStorage.removeItem(STORAGE_KEY);
+      notebook.innerHTML = originalHTML;
+      indicator.textContent = '💾 已恢复';
+      indicator.className = 'save-indicator saved';
+    }
+  }
+
+  function toggleToolbar() {
+    document.getElementById('toolbar').classList.toggle('hidden');
+  }
+</script>
+</body>
+</html>
